@@ -1,13 +1,7 @@
 ---
 info:
-  note: |-
-    Below the maximum of 912 Euro. The gesetzliche Rente of 13 000 Euro is entered
-    as 13 000 / 12 per month.
-    p_id 0 ('im Jahr 2017 das 64. Lebensjahr vollendet'): born 15.06.1953 (64th year
-    completed in 2017), first year of entitlement 2018; table row 2018: 19.2 %, at
-    most 912 Euro; Kapitalerträge 10000: left out from 2009;
-    sozialversicherung__rente__altersrente__betrag_m 1083.33: left out; other
-    Einkünfte: Vermietung und Verpachtung 1000; 19.2 % x 1000 = 192 -> 192.
+  note: >-
+    Source: steuerkurse.de, second Beispiel.
   precision_atol: 0.01
   source: >-
     steuerkurse.de, 'Altentlastungsbetrag nach § 24 a EStG', second Beispiel,

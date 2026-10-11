@@ -1,25 +1,9 @@
 ---
 info:
-  note: |-
-    From VZ 2009 Kapitalerträge under the Abgeltungsteuer are not part of the base.
-    p_id 0: born 15.06.1930 (64th year completed in 1994), first year of entitlement
-    1995; table row 2005 (row year 1995 is outside the table): 40.0 %, at most 1900
-    Euro; Kapitalerträge 2000: left out from 2009; 40.0 % x 0 = 0 -> 0.
-    p_id 1: born 15.06.1930 (64th year completed in 1994), first year of entitlement
-    1995; table row 2005 (row year 1995 is outside the table): 40.0 %, at most 1900
-    Euro; Kapitalerträge 2000: left out from 2009; other Einkünfte: Vermietung und
-    Verpachtung 1000; 40.0 % x 1000 = 400 -> 400.
-    p_id 2: born 15.06.1944 (64th year completed in 2008), first year of entitlement
-    2009; table row 2009: 33.6 %, at most 1596 Euro; Kapitalerträge 5000: left out
-    from 2009; other Einkünfte: Vermietung und Verpachtung 1000; 33.6 % x 1000 = 336
-    -> 336.
+  note: Regression test.
   precision_atol: 0.01
-  source: >-
-    Hand-derived from § 24a EStG
-    (https://www.gesetze-im-internet.de/estg/__24a.html) i. d. F. G. v. 05.07.2004
-    BGBl. I S. 1427 and § 2 Abs. 5b EStG (from VZ 2009); rounding up to the full
-    Euro per R 24a Abs. 1 Satz 4 EStR (Abschn. 171a / R 171a in earlier editions).
 inputs:
+  assumed: {}
   provided:
     p_id:
       - 0
@@ -87,7 +71,6 @@ inputs:
         - false
         - false
         - false
-  assumed: {}
 outputs:
   einkommensteuer:
     abzüge:

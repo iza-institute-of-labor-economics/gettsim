@@ -1,15 +1,7 @@
 ---
 info:
-  note: |-
-    Versorgungsbezüge are not an input: the Arbeitslohn is entered net of them
-    (Arbeitslohn 14 000 Euro less Versorgungsbezüge 6 000 Euro = 8 000 Euro, entered
-    as 8 000 / 12 per month). Beispiel 2 of this edition prints the table as it
-    stood before the Wachstumschancengesetz and is not used.
-    p_id 0 (64th year completed in VZ 2014): born 15.06.1950 (64th year completed in
-    2014), first year of entitlement 2015; table row 2015: 24.0 %, at most 1140
-    Euro; Arbeitslohn 8000; other Einkünfte: selbständige Arbeit 500, Vermietung und
-    Verpachtung -1500; sum -1000 -> not positive, left out; 24.0 % x 8000 = 1920, at
-    most 1140 -> 1140.
+  note: >-
+    Source: EStH 2023 H 24a, Beispiel 1.
   precision_atol: 0.01
   source: >-
     Amtliches Einkommensteuer-Handbuch 2023, H 24a 'Berechnung des

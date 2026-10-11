@@ -4,18 +4,7 @@ info:
   precision_atol: 0.01
   source: ''
 inputs:
-  assumed:
-    geburtstag:
-      - 15
-      - 15
-    einnahmen:
-      renten:
-        betriebliche_altersvorsorge_m:
-          - 0.0
-          - 0.0
-        geförderte_private_vorsorge_m:
-          - 0.0
-          - 0.0
+  assumed: {}
   provided:
     alter:
       - 35
@@ -82,6 +71,13 @@ inputs:
       kapitalerträge_m:
         - 0.0
         - 0.0
+      renten:
+        betriebliche_altersvorsorge_m:
+          - 0.0
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
+          - 0.0
     familie:
       alleinerziehend:
         - true
@@ -101,6 +97,9 @@ inputs:
     geburtsmonat:
       - 1
       - 1
+    geburtstag:
+      - 15
+      - 15
     hh_id:
       - 13
       - 13

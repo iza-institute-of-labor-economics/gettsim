@@ -1,13 +1,7 @@
 ---
 info:
-  note: |-
-    Arbeitslohn 14 000 Euro (without Versorgungsbezüge) entered as 14 000 / 12 per
-    month.
-    p_id 0 (Herr Schmidt, 'Jahrgang 1958, 64. Lebensjahr vollendet 2022, Kohorte
-    2023'): born 15.06.1958 (64th year completed in 2022), first year of entitlement
-    2023; table row 2023: 14.0 %, at most 665 Euro; Arbeitslohn 14000; other
-    Einkünfte: selbständige Arbeit 500, Vermietung und Verpachtung -1500; sum -1000
-    -> not positive, left out; 14.0 % x 14000 = 1960, at most 665 -> 665.
+  note: >-
+    Source: Steuerberater Schröder, Berechnungsbeispiel 2.
   precision_atol: 0.01
   source: >-
     Steuerberater Schröder, 'Altersentlastungsbetrag 2026: Tabelle, Höhe &

@@ -1,16 +1,7 @@
 ---
 info:
-  note: |-
-    § 24a Satz 4: no loss offset between the spouses. Versorgungsbezüge are not an
-    input: the Arbeitslohn is entered net of them (the husband's pension is left
-    out; his Arbeitslohn is 0).
-    p_id 0 (husband, Pensionär with a rental loss): born 15.06.1949 (64th year
-    completed in 2013), first year of entitlement 2014; table row 2014: 25.6 %, at
-    most 1216 Euro; other Einkünfte: Vermietung und Verpachtung -5000 -> not
-    positive, left out; 25.6 % x 0 = 0 -> 0.
-    p_id 1 (wife, freiberuflich): born 15.06.1949 (64th year completed in 2013),
-    first year of entitlement 2014; table row 2014: 25.6 %, at most 1216 Euro; other
-    Einkünfte: selbständige Arbeit 4000; 25.6 % x 4000 = 1024 -> 1024.
+  note: >-
+    Source: Littmann/Bitz/Pust, § 24a EStG, Beispiel (2) vor Rn. 42.
   precision_atol: 0.01
   source: >-
     Littmann/Bitz/Pust, Das Einkommensteuerrecht, § 24a EStG, V. Zusammenveranlagte

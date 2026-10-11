@@ -5,15 +5,7 @@ info:
   source: |-
     http://www.dr-wolters.de/content/inhalte/steuerberater_service/onlinerechner/einkommensteuer_berechnung/einkommensteuer_rechner/index.html
 inputs:
-  assumed:
-    geburtstag:
-      - 15
-    einnahmen:
-      renten:
-        betriebliche_altersvorsorge_m:
-          - 0.0
-        geförderte_private_vorsorge_m:
-          - 0.0
+  assumed: {}
   provided:
     alter:
       - 40
@@ -62,6 +54,11 @@ inputs:
         - 3000.0
       kapitalerträge_m:
         - 0.0
+      renten:
+        betriebliche_altersvorsorge_m:
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
     familie:
       alleinerziehend:
         - false
@@ -75,6 +72,8 @@ inputs:
       - 1975
     geburtsmonat:
       - 1
+    geburtstag:
+      - 15
     hh_id:
       - 16
     kindergeld:

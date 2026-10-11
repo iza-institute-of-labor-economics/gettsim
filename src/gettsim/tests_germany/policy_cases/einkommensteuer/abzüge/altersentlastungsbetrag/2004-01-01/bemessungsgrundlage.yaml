@@ -1,56 +1,9 @@
 ---
 info:
-  note: |-
-    What enters the base before 2005. Leibrenten are monthly amounts.
-    p_id 0 (Arbeitslohn only): born 15.06.1930 (64th year completed in 1994), first
-    year of entitlement 1995; 40 %, at most 1908 Euro; Arbeitslohn 12 x 100 = 1200;
-    40.0 % x 1200 = 480 -> 480.
-    p_id 1 (marginal employment): born 15.06.1930 (64th year completed in 1994),
-    first year of entitlement 1995; 40 %, at most 1908 Euro; Arbeitslohn 12 x 100 =
-    1200 (marginal employment; counted before 2005); 40.0 % x 1200 = 480 -> 480.
-    p_id 2 (betriebliche Altersvorsorge): born 15.06.1930 (64th year completed in
-    1994), first year of entitlement 1995; 40 %, at most 1908 Euro; betriebliche
-    Altersvorsorge 1200: left out before 2005 (Leibrente); 40.0 % x 0 = 0 -> 0.
-    p_id 3 (geförderte private Vorsorge): born 15.06.1930 (64th year completed in
-    1994), first year of entitlement 1995; 40 %, at most 1908 Euro; other Einkünfte:
-    geförderte private Vorsorge 12 x 100 = 1200; 40.0 % x 1200 = 480 -> 480.
-    p_id 4 (sonstige Einkünfte): born 15.06.1930 (64th year completed in 1994),
-    first year of entitlement 1995; 40 %, at most 1908 Euro; other Einkünfte:
-    sonstige Einkünfte (alle weiteren) 1001; 40.0 % x 1001 = 400.40, rounded up to
-    401 -> 401.
-    p_id 5 (Land- und Forstwirtschaft): born 15.06.1930 (64th year completed in
-    1994), first year of entitlement 1995; 40 %, at most 1908 Euro; other Einkünfte:
-    Land- und Forstwirtschaft 1001; 40.0 % x 1001 = 400.40, rounded up to 401 ->
-    401.
-    p_id 6 (Gewerbebetrieb): born 15.06.1930 (64th year completed in 1994), first
-    year of entitlement 1995; 40 %, at most 1908 Euro; other Einkünfte:
-    Gewerbebetrieb 1001; 40.0 % x 1001 = 400.40, rounded up to 401 -> 401.
-    p_id 7 (Leibrenten only): born 15.06.1930 (64th year completed in 1994), first
-    year of entitlement 1995; 40 %, at most 1908 Euro;
-    sozialversicherung__rente__altersrente__betrag_m 1000: left out;
-    einnahmen__renten__sonstige_private_vorsorge_m 100: left out;
-    einnahmen__renten__aus_berufsständischen_versicherungen_m 100: left out; 40.0 %
-    x 0 = 0 -> 0.
-    p_id 8 (other Einkünfte sum to 0): born 15.06.1930 (64th year completed in
-    1994), first year of entitlement 1995; 40 %, at most 1908 Euro; Arbeitslohn 12 x
-    100 = 1200; other Einkünfte: selbständige Arbeit 500, Vermietung und Verpachtung
-    -500; sum 0 -> not positive, left out; 40.0 % x 1200 = 480 -> 480.
-    p_id 9 (other Einkünfte negative in sum): born 15.06.1930 (64th year completed
-    in 1994), first year of entitlement 1995; 40 %, at most 1908 Euro; Arbeitslohn
-    12 x 100 = 1200; other Einkünfte: Land- und Forstwirtschaft -3000,
-    Gewerbebetrieb 1000; sum -2000 -> not positive, left out; 40.0 % x 1200 = 480 ->
-    480.
-    p_id 10 (other Einkünfte positive in sum): born 15.06.1930 (64th year completed
-    in 1994), first year of entitlement 1995; 40 %, at most 1908 Euro; Arbeitslohn
-    12 x 100 = 1200; other Einkünfte: Land- und Forstwirtschaft -1000,
-    Gewerbebetrieb 3000; sum 2000; 40.0 % x 3200 = 1280 -> 1280.
+  note: Regression test.
   precision_atol: 0.01
-  source: >-
-    Hand-derived from § 24a EStG
-    (https://www.gesetze-im-internet.de/estg/__24a.html) i. d. F. G. v. 19.12.2000
-    BGBl. I S. 1790; rounding up to the full Euro per R 24a Abs. 1 Satz 4 EStR
-    (Abschn. 171a / R 171a in earlier editions).
 inputs:
+  assumed: {}
   provided:
     p_id:
       - 0
@@ -293,7 +246,6 @@ inputs:
         - -1
         - -1
         - -1
-  assumed: {}
 outputs:
   einkommensteuer:
     abzüge:

@@ -1,13 +1,7 @@
 ---
 info:
-  note: |-
-    The source gives rate and maximum but no income. The incomes of EStH 2023 H 24a
-    Beispiel 2 are assumed (Arbeitslohn 8 000 Euro after Versorgungsbezüge, entered
-    as 8 000 / 12 per month).
-    p_id 0: born 15.06.1958 (64th year completed in 2022), first year of entitlement
-    2023; table row 2023: 14.0 %, at most 665 Euro; Arbeitslohn 8000; other
-    Einkünfte: selbständige Arbeit 500, Vermietung und Verpachtung -1500; sum -1000
-    -> not positive, left out; 14.0 % x 8000 = 1120, at most 665 -> 665.
+  note: >-
+    Source: Finanzverwaltung NRW. Income assumed (from EStH 2023 H 24a, Beispiel 2).
   precision_atol: 0.01
   source: >-
     Finanzverwaltung Nordrhein-Westfalen, 'Altersentlastungsbetrag', Beispiel: 'Sie

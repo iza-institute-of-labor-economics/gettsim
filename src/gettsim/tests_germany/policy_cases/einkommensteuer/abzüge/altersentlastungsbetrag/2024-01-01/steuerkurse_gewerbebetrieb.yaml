@@ -1,12 +1,7 @@
 ---
 info:
-  note: |-
-    Versorgungsbezüge are not an input: the Arbeitslohn is entered net of them
-    ('Einkünfte nach § 19 Abs. 2 EStG: 20.000 €' left out; Arbeitslohn 0).
-    p_id 0 ('im Jahr 2017 seinen 64. Geburtstag gefeiert'): born 15.06.1953 (64th
-    year completed in 2017), first year of entitlement 2018; table row 2018: 19.2 %,
-    at most 912 Euro; other Einkünfte: Gewerbebetrieb 30000; 19.2 % x 30000 = 5760,
-    at most 912 -> 912.
+  note: >-
+    Source: steuerkurse.de, first Beispiel.
   precision_atol: 0.01
   source: >-
     steuerkurse.de, 'Altentlastungsbetrag nach § 24 a EStG', first Beispiel,

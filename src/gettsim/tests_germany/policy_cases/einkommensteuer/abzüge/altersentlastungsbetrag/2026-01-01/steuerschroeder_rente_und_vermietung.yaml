@@ -1,19 +1,8 @@
 ---
 info:
-  note: |-
-    Gesetzliche Rente 18 000 Euro entered as 1 500 per month.
-    p_id 0 (Frau Müller, '64. Lebensjahr vollendet am 15.10.2025'): born 16.10.1961
-    (64th year completed in 2025), first year of entitlement 2026; table row 2026:
-    12.8 %, at most 608 Euro; sozialversicherung__rente__altersrente__betrag_m 1500:
-    left out; other Einkünfte: Vermietung und Verpachtung 6000; 12.8 % x 6000 = 768,
-    at most 608 -> 608.
-    p_id 1 (same page: 'Wer am 31.12.1961 geboren wurde ... erstmals für den
-    Veranlagungszeitraum 2026 – mit dem Kohortensatz 12,8 % bzw. dem Höchstbetrag
-    608 €'; Frau Müller's income assumed): born 31.12.1961 (64th year completed in
-    2025), first year of entitlement 2026; table row 2026: 12.8 %, at most 608 Euro;
-    sozialversicherung__rente__altersrente__betrag_m 1500: left out; other
-    Einkünfte: Vermietung und Verpachtung 6000; 12.8 % x 6000 = 768, at most 608 ->
-    608.
+  note: >-
+    Source: Steuerberater Schröder, Berechnungsbeispiel 1 (p_id 0) and the
+    31.12.1961 birth date on the same page (p_id 1). Income of p_id 1 assumed.
   precision_atol: 0.01
   source: >-
     Steuerberater Schröder, 'Altersentlastungsbetrag 2026: Tabelle, Höhe &

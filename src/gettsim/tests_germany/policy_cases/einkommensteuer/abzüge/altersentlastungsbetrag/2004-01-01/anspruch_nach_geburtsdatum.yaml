@@ -1,32 +1,9 @@
 ---
 info:
-  note: |-
-    § 24a Satz 3 with § 108 Abs. 1 AO, §§ 187 Abs. 2 Satz 2, 188 Abs. 2 BGB:
-    entitled in 2004 if the 64th year of life was completed before 01.01.2004, i.e.
-    born on or before 01.01.1940.
-    p_id 0: born 15.06.1939 (64th year completed in 2003), first year of entitlement
-    2004; 40 %, at most 1908 Euro; other Einkünfte: Vermietung und Verpachtung 1001;
-    40.0 % x 1001 = 400.40, rounded up to 401 -> 401.
-    p_id 1: born 31.12.1939 (64th year completed in 2003), first year of entitlement
-    2004; 40 %, at most 1908 Euro; other Einkünfte: Vermietung und Verpachtung 1001;
-    40.0 % x 1001 = 400.40, rounded up to 401 -> 401.
-    p_id 2: born 01.01.1940 (1 January: 64th year completed on 31.12.2003), first
-    year of entitlement 2004; 40 %, at most 1908 Euro; other Einkünfte: Vermietung
-    und Verpachtung 1001; 40.0 % x 1001 = 400.40, rounded up to 401 -> 401.
-    p_id 3: born 02.01.1940 (64th year completed in 2004), first year of entitlement
-    2005; 2004 < 2005: not entitled -> 0.
-    p_id 4: born 15.06.1940 (64th year completed in 2004), first year of entitlement
-    2005; 2004 < 2005: not entitled -> 0.
-    p_id 5 (above the maximum): born 15.06.1939 (64th year completed in 2003), first
-    year of entitlement 2004; 40 %, at most 1908 Euro; other Einkünfte: Vermietung
-    und Verpachtung 10000; 40.0 % x 10000 = 4000, at most 1908 -> 1908.
+  note: Regression test.
   precision_atol: 0.01
-  source: >-
-    Hand-derived from § 24a EStG
-    (https://www.gesetze-im-internet.de/estg/__24a.html) i. d. F. G. v. 19.12.2000
-    BGBl. I S. 1790; rounding up to the full Euro per R 24a Abs. 1 Satz 4 EStR
-    (Abschn. 171a / R 171a in earlier editions).
 inputs:
+  assumed: {}
   provided:
     p_id:
       - 0
@@ -136,7 +113,6 @@ inputs:
         - -1
         - -1
         - -1
-  assumed: {}
 outputs:
   einkommensteuer:
     abzüge:

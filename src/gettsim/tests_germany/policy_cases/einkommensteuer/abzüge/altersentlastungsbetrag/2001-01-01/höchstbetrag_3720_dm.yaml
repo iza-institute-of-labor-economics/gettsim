@@ -1,22 +1,10 @@
 ---
 info:
-  note: |-
-    Amounts in DM. Last year of the DM maximum.
-    p_id 0 (above the maximum): born 15.06.1930 (64th year completed in 1994), first
-    year of entitlement 1995; 40 %, at most 3720 DM; other Einkünfte: Vermietung und
-    Verpachtung 10000; 40.0 % x 10000 = 4000, at most 3720 -> 3720.
-    p_id 1 (rounding up to the full DM): born 15.06.1930 (64th year completed in
-    1994), first year of entitlement 1995; 40 %, at most 3720 DM; other Einkünfte:
-    Vermietung und Verpachtung 1001; 40.0 % x 1001 = 400.40, rounded up to 401 ->
-    401.
+  note: Regression test.
   precision_atol: 0.01
   data_currency: DM
-  source: >-
-    Hand-derived from § 24a EStG
-    (https://www.gesetze-im-internet.de/estg/__24a.html) i. d. F. G. v. 25.07.1988
-    BGBl. I S. 1093; rounding up to the full DM per R 24a Abs. 1 Satz 4 EStR
-    (Abschn. 171a / R 171a in earlier editions).
 inputs:
+  assumed: {}
   provided:
     p_id:
       - 0
@@ -70,7 +58,6 @@ inputs:
       p_id_ehepartner:
         - -1
         - -1
-  assumed: {}
 outputs:
   einkommensteuer:
     abzüge:

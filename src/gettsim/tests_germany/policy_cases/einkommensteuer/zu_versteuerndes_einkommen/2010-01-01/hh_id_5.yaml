@@ -4,15 +4,7 @@ info:
   precision_atol: 0.01
   source: ''
 inputs:
-  assumed:
-    geburtstag:
-      - 15
-    einnahmen:
-      renten:
-        betriebliche_altersvorsorge_m:
-          - 0.0
-        geförderte_private_vorsorge_m:
-          - 0.0
+  assumed: {}
   provided:
     alter:
       - 40
@@ -61,6 +53,11 @@ inputs:
         - 1500.0
       kapitalerträge_m:
         - 100.0
+      renten:
+        betriebliche_altersvorsorge_m:
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
     familie:
       alleinerziehend:
         - false
@@ -74,6 +71,8 @@ inputs:
       - 1970
     geburtsmonat:
       - 1
+    geburtstag:
+      - 15
     hh_id:
       - 5
     kindergeld:

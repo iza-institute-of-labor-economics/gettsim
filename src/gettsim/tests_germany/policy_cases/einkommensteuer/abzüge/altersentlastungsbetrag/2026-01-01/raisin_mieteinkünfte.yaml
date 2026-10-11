@@ -1,10 +1,7 @@
 ---
 info:
-  note: |-
-    p_id 0 ('im Jahr 2025 ihr 64. Lebensjahr vollendet'; the source calls the row
-    'Kohorte 2025'): born 15.06.1961 (64th year completed in 2025), first year of
-    entitlement 2026; table row 2026: 12.8 %, at most 608 Euro; other Einkünfte:
-    Vermietung und Verpachtung 10000; 12.8 % x 10000 = 1280, at most 608 -> 608.
+  note: >-
+    Source: Raisin. Birth month and day assumed.
   precision_atol: 0.01
   source: >-
     Raisin, 'Altersentlastungsbetrag: Definition, Voraussetzungen und Berechnung
