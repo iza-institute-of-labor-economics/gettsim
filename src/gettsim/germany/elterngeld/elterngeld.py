@@ -358,6 +358,28 @@ def anrechenbarer_betrag_m(
     )
 
 
+@policy_function(start_date="2011-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
+def anrechenbarer_betrag_nach_sgb_ii_m(
+    betrag_m: float,
+    mean_nettoeinkommen_in_12_monaten_vor_geburt_m: float,
+    mindestbetrag_m: float,
+) -> float:
+    """Elterngeld that is considered as income under SGB II rules.
+
+    The Elterngeld remains exempt in the amount of the income from employment before
+    the birth, up to the Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG). Unlike § 10 Abs. 4
+    BEEG for the other transfers, the exemption does not multiply with the number of
+    children of a multiple birth.
+
+    Relevant for Unterhaltsvorschuss.
+    """
+    return max(
+        betrag_m
+        - min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m),
+        0.0,
+    )
+
+
 @policy_function(unit=TTSIMUnit.DIMENSIONLESS)
 def jüngstes_kind_oder_mehrling(
     alter_monate: int,

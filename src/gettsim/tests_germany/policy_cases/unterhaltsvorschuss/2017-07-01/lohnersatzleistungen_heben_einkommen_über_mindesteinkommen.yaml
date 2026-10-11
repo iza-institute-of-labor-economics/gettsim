@@ -2,7 +2,8 @@
 info:
   note: >-
     Krankengeld and Elterngeld count towards the minimum income of the parent (§ 1 Abs.
-    1a S. 1 Nr. 2 UhVG).
+    1a S. 1 Nr. 2 UhVG). The parent had no income from employment before the birth, so
+    no part of the Elterngeld is exempt (§ 10 Abs. 5 S. 2 BEEG).
   precision_atol: 0.01
   source: Regression test.
 inputs:
@@ -91,6 +92,11 @@ inputs:
     elterngeld:
       betrag_m:
         - 200.0
+        - 0.0
+        - 0.0
+        - 0.0
+      mean_nettoeinkommen_in_12_monaten_vor_geburt_m:
+        - 0.0
         - 0.0
         - 0.0
         - 0.0

@@ -331,12 +331,15 @@ def einkommen_m(
     einnahmen__kapitalerträge_m: float,
     einnahmen__renten__betrag_gesamt_m: float,
     einkommensteuer__einkünfte__sonstige__alle_weiteren_m: float,
-    einnahmen__lohn_und_einkommensersatzleistungen_m: float,
+    einnahmen__lohn_und_einkommensersatzleistungen_ohne_elterngeld_m: float,
+    elterngeld__anrechenbarer_betrag_nach_sgb_ii_m: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment.
 
     Income in the sense of § 11 Abs. 1 S. 1 SGB II (§ 1 Abs. 1a S. 1 Nr. 2 UhVG), so
-    wage-replacement benefits including Elterngeld count.
+    wage-replacement benefits count. Deductions under § 11b SGB II do not reduce it,
+    but income exempt under other laws does not count, such as the part of the
+    Elterngeld exempt under § 10 Abs. 5 BEEG (UVG-Richtlinien, Nr. 1.7.4).
     """
     return (
         einnahmen__bruttolohn_m
@@ -345,7 +348,8 @@ def einkommen_m(
         + einnahmen__kapitalerträge_m
         + einnahmen__renten__betrag_gesamt_m
         + einkommensteuer__einkünfte__sonstige__alle_weiteren_m
-        + einnahmen__lohn_und_einkommensersatzleistungen_m
+        + einnahmen__lohn_und_einkommensersatzleistungen_ohne_elterngeld_m
+        + elterngeld__anrechenbarer_betrag_nach_sgb_ii_m
     )
 
 

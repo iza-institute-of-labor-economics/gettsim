@@ -6,6 +6,10 @@ info:
 inputs:
   assumed: {}
   provided:
+    elterngeld:
+      anrechenbarer_betrag_nach_sgb_ii_m:
+        - 0.0
+        - 0.0
     alter:
       - 40
       - 8
@@ -34,7 +38,7 @@ inputs:
       kapitalerträge_m:
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_m:
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
         - 0.0
         - 0.0
       renten:
