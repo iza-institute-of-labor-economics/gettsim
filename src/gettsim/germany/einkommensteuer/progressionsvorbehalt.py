@@ -127,7 +127,7 @@ def steuersatzeinkommen_mit_kinderfreibetrag_y_sn(
     ),
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
-def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_mit_36er_rundungsregel(
+def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_bis_2003(
     steuersatzeinkommen_mit_kinderfreibetrag_y_sn: float,
     familie__anzahl_personen_sn: int,
 ) -> float:
@@ -151,7 +151,7 @@ def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_mit_36er_rundungsregel(
     ),
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
-def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_mit_abrundungsregel(
+def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_ab_2004(
     steuersatzeinkommen_mit_kinderfreibetrag_y_sn: float,
     familie__anzahl_personen_sn: int,
 ) -> float:
@@ -176,7 +176,7 @@ def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_mit_abrundungsregel(
     ),
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
-def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_mit_36er_rundungsregel(
+def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_bis_2003(
     steuersatzeinkommen_ohne_kinderfreibetrag_y_sn: float,
     familie__anzahl_personen_sn: int,
 ) -> float:
@@ -200,7 +200,7 @@ def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_mit_36er_rundungsregel
     ),
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
-def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_mit_abrundungsregel(
+def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_ab_2004(
     steuersatzeinkommen_ohne_kinderfreibetrag_y_sn: float,
     familie__anzahl_personen_sn: int,
 ) -> float:
