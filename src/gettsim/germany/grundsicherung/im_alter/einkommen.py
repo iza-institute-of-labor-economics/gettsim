@@ -119,13 +119,13 @@ def einkommen_m_ab_2007_bis_2010(
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         + kapitaleinkommen_brutto_m
         + einnahmen__lohn_und_einkommensersatzleistungen_m
-        - elterngeld__freibetrag_paragraph_10_abs_1_beeg_m
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
     )
 
     out = (
         total_income
+        - elterngeld__freibetrag_paragraph_10_abs_1_beeg_m
         - einkommensteuer__betrag_m_sn / familie__anzahl_personen_sn
         - solidaritätszuschlag__betrag_m_sn / familie__anzahl_personen_sn
         - sozialversicherung__beiträge_versicherter_m
@@ -178,13 +178,13 @@ def einkommen_m_ab_2011_bis_2017(
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         + kapitaleinkommen_brutto_m
         + einnahmen__lohn_und_einkommensersatzleistungen_m
-        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
     )
 
     out = (
         total_income
+        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
         - einkommensteuer__betrag_m_sn / familie__anzahl_personen_sn
         - solidaritätszuschlag__betrag_m_sn / familie__anzahl_personen_sn
         - sozialversicherung__beiträge_versicherter_m
@@ -226,13 +226,13 @@ def einkommen_m_ab_2018(
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         + kapitaleinkommen_brutto_m
         + einnahmen__lohn_und_einkommensersatzleistungen_m
-        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
     )
 
     out = (
         total_income
+        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
         - einkommensteuer__betrag_m_sn / familie__anzahl_personen_sn
         - solidaritätszuschlag__betrag_m_sn / familie__anzahl_personen_sn
         - sozialversicherung__beiträge_versicherter_m

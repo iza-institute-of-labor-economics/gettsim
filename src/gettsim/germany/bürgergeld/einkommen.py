@@ -110,8 +110,7 @@ def anrechnungsfreies_einkommen_m(
     # TODO(@MImmesberger): Should consider income from other sources too. Also,
     # thresholds for children might be different.
     # https://github.com/ttsim-dev/gettsim/issues/598
-    # Kurzarbeitergeld and Insolvenzgeld count as income from employment (BA, Fachliche
-    # Weisungen §§ 11-11b SGB II, Rz. 11.148 f.).
+
     # TODO(@MImmesberger): Insolvenzgeld enters as net, not as the underlying gross wage.
     # https://github.com/ttsim-dev/gettsim/issues/1244
     eink_erwerbstätigkeit = (

@@ -339,9 +339,6 @@ def freibetrag_paragraph_10_abs_1_beeg_m(
     exempt up to the Mindestbetrag per child (§ 10 Abs. 1 and 4 BEEG). Transfers that
     use this exemption subtract it from the full Lohn- und Einkommensersatzleistungen,
     which contain the paid Elterngeld and the Mutterschaftsgeld.
-
-    Relevant for Wohngeld and, until 2010, Grundsicherung im Alter. From 2011, § 10
-    Abs. 5 BEEG applies instead for SGB II, SGB XII and Kinderzuschlag.
     """
     return min(
         betrag_m + angerechnete_mutterschaftsleistungen_m,
@@ -367,8 +364,6 @@ def freibetrag_paragraph_10_abs_5_beeg_m_ohne_angerechnete_einnahmen(
     the birth, up to the Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG, inserted by Art. 14 Nr. 4
     G. v. 09.12.2010, BGBl. I S. 1896). Unlike § 10 Abs. 4 BEEG for the other transfers,
     the exemption does not multiply with the number of children of a multiple birth.
-
-    Relevant for Grundsicherung im Alter and Unterhaltsvorschuss.
     """
     höchstbetrag = min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m)
     return min(betrag_m, höchstbetrag)
@@ -392,8 +387,6 @@ def freibetrag_paragraph_10_abs_5_beeg_m_mit_angerechneten_einnahmen(
     Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG, amended by Art. 1 Nr. 10 c G. v. 10.09.2012,
     BGBl. I S. 1878). Unlike § 10 Abs. 4 BEEG for the other transfers, the exemption
     does not multiply with the number of children of a multiple birth.
-
-    Relevant for Grundsicherung im Alter and Unterhaltsvorschuss.
     """
     höchstbetrag = min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m)
     return min(betrag_m + angerechnete_mutterschaftsleistungen_m, höchstbetrag)
