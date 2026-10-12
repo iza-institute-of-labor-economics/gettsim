@@ -55,7 +55,7 @@ inputs:
           - 0.0
           - 0.0
     elterngeld:
-      anrechenbarer_betrag_m:
+      anrechenbarer_betrag_paragraph_10_abs_1_beeg_m:
         - 360.0
         - 0.0
       angerechnete_mutterschaftsleistungen_m:

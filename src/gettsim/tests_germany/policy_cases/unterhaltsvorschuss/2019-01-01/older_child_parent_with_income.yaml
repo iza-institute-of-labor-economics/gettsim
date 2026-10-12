@@ -7,7 +7,7 @@ inputs:
   assumed: {}
   provided:
     elterngeld:
-      anrechenbarer_betrag_nach_sgb_ii_m:
+      anrechenbarer_betrag_paragraph_10_abs_5_beeg_m:
         - 0.0
         - 0.0
         - 0.0

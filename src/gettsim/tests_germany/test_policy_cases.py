@@ -57,7 +57,7 @@ EXPECTED_UNIT_CHECK_LOCAL_CASTS = (
     "einkommensteuer__besonderer_steuersatz_ohne_kinderfreibetrag",
     "einkommensteuer__betrag_mit_kinderfreibetrag_y_sn",
     "einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn",
-    "elterngeld__anrechenbarer_betrag_m",
+    "elterngeld__anrechenbarer_betrag_paragraph_10_abs_1_beeg_m",
     "elterngeld__anspruchshöhe_m",
     "elterngeld__anzahl_mehrlinge_fg",
     "elterngeld__bezugsmonate_unter_grenze_fg",

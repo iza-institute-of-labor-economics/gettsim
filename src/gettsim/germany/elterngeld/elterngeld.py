@@ -327,7 +327,7 @@ def lohnersatzanteil(
 # is a 300€ Freibetrag under some conditions since 2011.
 # https://github.com/ttsim-dev/gettsim/issues/549
 @policy_function(start_date="2007-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
-def anrechenbarer_betrag_m(
+def anrechenbarer_betrag_paragraph_10_abs_1_beeg_m(
     betrag_m: float,
     angerechnete_mutterschaftsleistungen_m: float,
     anzahl_mehrlinge_fg: int,
@@ -359,7 +359,7 @@ def anrechenbarer_betrag_m(
 
 
 @policy_function(start_date="2011-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
-def anrechenbarer_betrag_nach_sgb_ii_m(
+def anrechenbarer_betrag_paragraph_10_abs_5_beeg_m(
     betrag_m: float,
     mean_nettoeinkommen_in_12_monaten_vor_geburt_m: float,
     mindestbetrag_m: float,

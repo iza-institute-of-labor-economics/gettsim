@@ -80,7 +80,7 @@ inputs:
           - 0.0
           - 400.0
     elterngeld:
-      anrechenbarer_betrag_m:
+      anrechenbarer_betrag_paragraph_10_abs_1_beeg_m:
         - 0.0
         - 0.0
       betrag_m:

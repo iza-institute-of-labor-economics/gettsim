@@ -97,7 +97,7 @@ def einkommen_m_ab_2007_bis_2017(
     solidaritätszuschlag__betrag_m_sn: float,
     familie__anzahl_personen_sn: int,
     sozialversicherung__beiträge_versicherter_m: float,
-    elterngeld__anrechenbarer_betrag_m: float,
+    elterngeld__anrechenbarer_betrag_paragraph_10_abs_1_beeg_m: float,
     elterngeld__angerechnete_mutterschaftsleistungen_m: float,
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
@@ -118,7 +118,7 @@ def einkommen_m_ab_2007_bis_2017(
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         + kapitaleinkommen_brutto_m
         + einnahmen__lohn_und_einkommensersatzleistungen_ohne_elterngeld_m
-        + elterngeld__anrechenbarer_betrag_m
+        + elterngeld__anrechenbarer_betrag_paragraph_10_abs_1_beeg_m
         - elterngeld__angerechnete_mutterschaftsleistungen_m
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
@@ -149,7 +149,7 @@ def einkommen_m_ab_2018(
     solidaritätszuschlag__betrag_m_sn: float,
     familie__anzahl_personen_sn: int,
     sozialversicherung__beiträge_versicherter_m: float,
-    elterngeld__anrechenbarer_betrag_m: float,
+    elterngeld__anrechenbarer_betrag_paragraph_10_abs_1_beeg_m: float,
     elterngeld__angerechnete_mutterschaftsleistungen_m: float,
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
@@ -168,7 +168,7 @@ def einkommen_m_ab_2018(
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         + kapitaleinkommen_brutto_m
         + einnahmen__lohn_und_einkommensersatzleistungen_ohne_elterngeld_m
-        + elterngeld__anrechenbarer_betrag_m
+        + elterngeld__anrechenbarer_betrag_paragraph_10_abs_1_beeg_m
         - elterngeld__angerechnete_mutterschaftsleistungen_m
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
