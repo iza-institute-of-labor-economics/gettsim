@@ -172,9 +172,9 @@ def anrechnungsfreies_einkommen_m(
     # child have slightly different thresholds. We currently do not consider the second
     # condition.
     # Kurzarbeitergeld and Insolvenzgeld count as income from employment (BA, Fachliche
-    # Weisungen §§ 11-11b SGB II, Rz. 11.148 f.). For Insolvenzgeld, the base would be
-    # the underlying gross wage; the Insolvenzgeld (paid at the level of the net wage)
-    # approximates it.
+    # Weisungen §§ 11-11b SGB II, Rz. 11.148 f.).
+    # TODO(@MImmesberger): Insolvenzgeld enters as net, not as the underlying gross wage.
+    # https://github.com/ttsim-dev/gettsim/issues/1244
     eink_erwerbstätigkeit = (
         einnahmen__bruttolohn_m
         + einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
