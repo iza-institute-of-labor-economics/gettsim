@@ -1,0 +1,80 @@
+---
+info:
+  note: >-
+    Elterngeld counts towards the minimum income of the parent only beyond the amount
+    exempt under § 10 Abs. 5 S. 2 BEEG: the income from employment before the birth, up
+    to 300 € (UVG-Richtlinien, Nr. 1.7.4). All parents receive 600 € Basiselterngeld
+    and have no other income. Income from employment before the birth: 1.500 €, none,
+    100 €.
+  precision_atol: 0.01
+  source: Regression test.
+inputs:
+  assumed: {}
+  provided:
+    p_id:
+      - 0
+      - 1
+      - 2
+    elterngeld:
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      betrag_m:
+        - 600.0
+        - 600.0
+        - 600.0
+      mean_nettoeinkommen_in_12_monaten_vor_geburt_m:
+        - 1500.0
+        - 0.0
+        - 100.0
+    einkommensteuer:
+      einkünfte:
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+        sonstige:
+          alle_weiteren_m:
+            - 0.0
+            - 0.0
+            - 0.0
+    einnahmen:
+      bruttolohn_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      kapitalerträge_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      renten:
+        betrag_gesamt_m:
+          - 0.0
+          - 0.0
+          - 0.0
+outputs:
+  elterngeld:
+    freibetrag_paragraph_10_abs_5_beeg_m:
+      - 300.0
+      - 0.0
+      - 100.0
+  unterhaltsvorschuss:
+    einkommen_m:
+      - 300.0
+      - 600.0
+      - 500.0
+    mindesteinkommen_erreicht:
+      - false
+      - true
+      - false

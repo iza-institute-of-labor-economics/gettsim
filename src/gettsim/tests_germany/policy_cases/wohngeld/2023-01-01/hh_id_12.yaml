@@ -44,13 +44,15 @@ inputs:
         - 1050.0
       kapitalerträge_y:
         - 0.0
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
+        - 0.0
       renten:
         gesetzliche_m:
           - 0.0
         gesamt_m:
           - 0.0
     elterngeld:
-      anrechenbarer_betrag_m:
+      freibetrag_paragraph_10_abs_1_beeg_m:
         - 0.0
       betrag_m:
         - 0.0

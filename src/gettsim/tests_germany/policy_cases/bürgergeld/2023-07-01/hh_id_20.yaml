@@ -37,6 +37,10 @@ inputs:
         - 1200.0
       kapitalerträge_m:
         - 0.0
+      lohn_und_einkommensersatzleistungen_m:
+        - 0.0
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
+        - 0.0
       renten:
         betriebliche_altersvorsorge_m:
           - 0.0
@@ -49,6 +53,10 @@ inputs:
         aus_berufsständischen_versicherungen_m:
           - 0.0
     elterngeld:
+      freibetrag_paragraph_10_abs_5_beeg_m:
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
       betrag_m:
         - 0.0
     familie:
@@ -80,6 +88,10 @@ inputs:
         - 0.0
     sozialversicherung:
       arbeitslosen:
+        kurzarbeitergeld_m:
+          - 0.0
+        insolvenzgeld_m:
+          - 0.0
         betrag_m:
           - 0.0
       beiträge_versicherter_m:
