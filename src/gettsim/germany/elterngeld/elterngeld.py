@@ -340,8 +340,8 @@ def freibetrag_paragraph_10_abs_1_beeg_m(
     use this exemption subtract it from the full Lohn- und Einkommensersatzleistungen,
     which contain the paid Elterngeld and the Mutterschaftsgeld.
 
-    Relevant for Wohngeld and Grundsicherung im Alter. For Arbeitslosengeld II /
-    Bürgergeld and Kinderzuschlag, § 10 Abs. 5 BEEG applies instead.
+    Relevant for Wohngeld and, until 2010, Grundsicherung im Alter. From 2011, § 10
+    Abs. 5 BEEG applies instead for SGB II, SGB XII and Kinderzuschlag.
     """
     return min(
         betrag_m + angerechnete_mutterschaftsleistungen_m,
@@ -350,23 +350,53 @@ def freibetrag_paragraph_10_abs_1_beeg_m(
     )
 
 
-@policy_function(start_date="2011-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
-def freibetrag_paragraph_10_abs_5_beeg_m(
+@policy_function(
+    start_date="2011-01-01",
+    end_date="2012-09-17",
+    leaf_name="freibetrag_paragraph_10_abs_5_beeg_m",
+    unit=TTSIMUnit.CURRENCY.PER_MONTH,
+)
+def freibetrag_paragraph_10_abs_5_beeg_m_ohne_angerechnete_einnahmen(
     betrag_m: float,
     mean_nettoeinkommen_in_12_monaten_vor_geburt_m: float,
     mindestbetrag_m: float,
 ) -> float:
-    """Elterngeld that does not count as income under SGB II rules.
+    """Elterngeld that does not count as income for SGB II, SGB XII and Kinderzuschlag.
 
     The Elterngeld remains exempt in the amount of the income from employment before
-    the birth, up to the Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG). Unlike § 10 Abs. 4
-    BEEG for the other transfers, the exemption does not multiply with the number of
-    children of a multiple birth.
+    the birth, up to the Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG, inserted by Art. 14 Nr. 4
+    G. v. 09.12.2010, BGBl. I S. 1896). Unlike § 10 Abs. 4 BEEG for the other transfers,
+    the exemption does not multiply with the number of children of a multiple birth.
 
-    Relevant for Unterhaltsvorschuss.
+    Relevant for Grundsicherung im Alter and Unterhaltsvorschuss.
     """
     höchstbetrag = min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m)
     return min(betrag_m, höchstbetrag)
+
+
+@policy_function(
+    start_date="2012-09-18",
+    leaf_name="freibetrag_paragraph_10_abs_5_beeg_m",
+    unit=TTSIMUnit.CURRENCY.PER_MONTH,
+)
+def freibetrag_paragraph_10_abs_5_beeg_m_mit_angerechneten_einnahmen(
+    betrag_m: float,
+    angerechnete_mutterschaftsleistungen_m: float,
+    mean_nettoeinkommen_in_12_monaten_vor_geburt_m: float,
+    mindestbetrag_m: float,
+) -> float:
+    """Elterngeld that does not count as income for SGB II, SGB XII and Kinderzuschlag.
+
+    The Elterngeld together with the Mutterschaftsgeld credited against it remains
+    exempt in the amount of the income from employment before the birth, up to the
+    Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG, amended by Art. 1 Nr. 10 c G. v. 10.09.2012,
+    BGBl. I S. 1878). Unlike § 10 Abs. 4 BEEG for the other transfers, the exemption
+    does not multiply with the number of children of a multiple birth.
+
+    Relevant for Grundsicherung im Alter and Unterhaltsvorschuss.
+    """
+    höchstbetrag = min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m)
+    return min(betrag_m + angerechnete_mutterschaftsleistungen_m, höchstbetrag)
 
 
 @policy_function(unit=TTSIMUnit.DIMENSIONLESS)

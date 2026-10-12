@@ -77,11 +77,11 @@ def einkommen_m_bis_2006(
 
 @policy_function(
     start_date="2007-01-01",
-    end_date="2017-12-31",
+    end_date="2010-12-31",
     leaf_name="einkommen_m",
     unit=TTSIMUnit.CURRENCY.PER_MONTH,
 )
-def einkommen_m_ab_2007_bis_2017(
+def einkommen_m_ab_2007_bis_2010(
     erwerbseinkommen_m: float,
     einnahmen__renten__basisrente_m: float,
     einnahmen__renten__sonstige_private_vorsorge_m: float,
@@ -101,9 +101,11 @@ def einkommen_m_ab_2007_bis_2017(
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
 ) -> float:
-    """Income considered for Grundsicherung im Alter from 2007 until 2017.
+    """Income considered for Grundsicherung im Alter from 2007 until 2010.
 
-    Introduces Elterngeld as income. All pension income is fully counted as income.
+    Introduces Elterngeld as income, exempt up to 300 € together with the Mutterschaftsgeld
+    credited against it (§ 10 Abs. 1 BEEG). All pension income is fully counted as
+    income.
     """
     total_income = (
         erwerbseinkommen_m
@@ -133,6 +135,65 @@ def einkommen_m_ab_2007_bis_2017(
 
 
 @policy_function(
+    start_date="2011-01-01",
+    end_date="2017-12-31",
+    leaf_name="einkommen_m",
+    unit=TTSIMUnit.CURRENCY.PER_MONTH,
+)
+def einkommen_m_ab_2011_bis_2017(
+    erwerbseinkommen_m: float,
+    einnahmen__renten__basisrente_m: float,
+    einnahmen__renten__sonstige_private_vorsorge_m: float,
+    einnahmen__renten__geförderte_private_vorsorge_m: float,
+    einnahmen__renten__betriebliche_altersvorsorge_m: float,
+    einnahmen__renten__aus_berufsständischen_versicherungen_m: float,
+    gesetzliche_rente_m: float,
+    einkommensteuer__einkünfte__sonstige__alle_weiteren_m: float,
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m: float,
+    kapitaleinkommen_brutto_m: float,
+    einnahmen__lohn_und_einkommensersatzleistungen_m: float,
+    einkommensteuer__betrag_m_sn: float,
+    solidaritätszuschlag__betrag_m_sn: float,
+    familie__anzahl_personen_sn: int,
+    sozialversicherung__beiträge_versicherter_m: float,
+    elterngeld__freibetrag_paragraph_10_abs_5_beeg_m: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m: float,
+    unterhaltsvorschuss__betrag_m: float,
+) -> float:
+    """Income considered for Grundsicherung im Alter from 2011 until 2017.
+
+    Elterngeld is exempt only in the amount of the income from employment before the
+    birth, up to 300 € (§ 10 Abs. 5 BEEG, Art. 14 Nr. 4 G. v. 09.12.2010, BGBl. I S.
+    1896). All pension income is fully counted as income.
+    """
+    total_income = (
+        erwerbseinkommen_m
+        + gesetzliche_rente_m
+        + einnahmen__renten__basisrente_m
+        + einnahmen__renten__sonstige_private_vorsorge_m
+        + einnahmen__renten__geförderte_private_vorsorge_m
+        + einnahmen__renten__betriebliche_altersvorsorge_m
+        + einnahmen__renten__aus_berufsständischen_versicherungen_m
+        + einkommensteuer__einkünfte__sonstige__alle_weiteren_m
+        + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
+        + kapitaleinkommen_brutto_m
+        + einnahmen__lohn_und_einkommensersatzleistungen_m
+        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
+        + unterhalt__tatsächlich_erhaltener_betrag_m
+        + unterhaltsvorschuss__betrag_m
+    )
+
+    out = (
+        total_income
+        - einkommensteuer__betrag_m_sn / familie__anzahl_personen_sn
+        - solidaritätszuschlag__betrag_m_sn / familie__anzahl_personen_sn
+        - sozialversicherung__beiträge_versicherter_m
+    )
+
+    return max(out, 0.0)
+
+
+@policy_function(
     start_date="2018-01-01", leaf_name="einkommen_m", unit=TTSIMUnit.CURRENCY.PER_MONTH
 )
 def einkommen_m_ab_2018(
@@ -147,7 +208,7 @@ def einkommen_m_ab_2018(
     solidaritätszuschlag__betrag_m_sn: float,
     familie__anzahl_personen_sn: int,
     sozialversicherung__beiträge_versicherter_m: float,
-    elterngeld__freibetrag_paragraph_10_abs_1_beeg_m: float,
+    elterngeld__freibetrag_paragraph_10_abs_5_beeg_m: float,
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
 ) -> float:
@@ -165,7 +226,7 @@ def einkommen_m_ab_2018(
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         + kapitaleinkommen_brutto_m
         + einnahmen__lohn_und_einkommensersatzleistungen_m
-        - elterngeld__freibetrag_paragraph_10_abs_1_beeg_m
+        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
     )
