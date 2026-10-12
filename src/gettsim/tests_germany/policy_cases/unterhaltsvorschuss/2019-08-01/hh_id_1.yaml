@@ -7,7 +7,10 @@ inputs:
   assumed: {}
   provided:
     elterngeld:
-      anrechenbarer_betrag_paragraph_10_abs_5_beeg_m:
+      betrag_m:
+        - 0.0
+        - 0.0
+      freibetrag_paragraph_10_abs_5_beeg_m:
         - 0.0
         - 0.0
     alter:

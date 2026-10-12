@@ -55,11 +55,11 @@ inputs:
           - 0.0
           - 0.0
     elterngeld:
-      anrechenbarer_betrag_paragraph_10_abs_1_beeg_m:
-        - 360.0
+      betrag_m:
+        - 460.0
         - 0.0
-      angerechnete_mutterschaftsleistungen_m:
-        - 200.0
+      freibetrag_paragraph_10_abs_1_beeg_m:
+        - 300.0
         - 0.0
     sozialversicherung:
       arbeitslosen:

@@ -327,44 +327,36 @@ def lohnersatzanteil(
 # is a 300€ Freibetrag under some conditions since 2011.
 # https://github.com/ttsim-dev/gettsim/issues/549
 @policy_function(start_date="2007-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
-def anrechenbarer_betrag_paragraph_10_abs_1_beeg_m(
+def freibetrag_paragraph_10_abs_1_beeg_m(
     betrag_m: float,
     angerechnete_mutterschaftsleistungen_m: float,
     anzahl_mehrlinge_fg: int,
     mindestbetrag_m: float,
 ) -> float:
-    """Elterngeld that can be considered as income for other transfers.
+    """Elterngeld that does not count as income for other transfers.
 
-    Relevant for Wohngeld and Grundsicherung im Alter. The Elterngeld together with the
-    Mutterschaftsgeld credited against it remains exempt up to the Mindestbetrag per
-    child (§ 10 Abs. 1 and 4 BEEG). The result includes the credited Mutterschaftsgeld,
-    so transfers that use it must not count that part again.
+    The Elterngeld together with the Mutterschaftsgeld credited against it remains
+    exempt up to the Mindestbetrag per child (§ 10 Abs. 1 and 4 BEEG). Transfers that
+    use this exemption subtract it from the full Lohn- und Einkommensersatzleistungen,
+    which contain the paid Elterngeld and the Mutterschaftsgeld.
 
-    For Arbeitslosengeld II / Bürgergeld as well as Kinderzuschlag the whole amount of
-    Elterngeld is considered as income, except for the case in which the parents still
-    worked right before they had children. See:
-    https://www.kindergeld.org/elterngeld-einkommen/
-
-
+    Relevant for Wohngeld and Grundsicherung im Alter. For Arbeitslosengeld II /
+    Bürgergeld and Kinderzuschlag, § 10 Abs. 5 BEEG applies instead.
     """
-    return max(
-        betrag_m
-        + angerechnete_mutterschaftsleistungen_m
-        - (
-            (1 + cast_ttsim_unit(anzahl_mehrlinge_fg, unit=TTSIMUnit.DIMENSIONLESS))
-            * mindestbetrag_m
-        ),
-        0,
+    return min(
+        betrag_m + angerechnete_mutterschaftsleistungen_m,
+        (1 + cast_ttsim_unit(anzahl_mehrlinge_fg, unit=TTSIMUnit.DIMENSIONLESS))
+        * mindestbetrag_m,
     )
 
 
 @policy_function(start_date="2011-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
-def anrechenbarer_betrag_paragraph_10_abs_5_beeg_m(
+def freibetrag_paragraph_10_abs_5_beeg_m(
     betrag_m: float,
     mean_nettoeinkommen_in_12_monaten_vor_geburt_m: float,
     mindestbetrag_m: float,
 ) -> float:
-    """Elterngeld that is considered as income under SGB II rules.
+    """Elterngeld that does not count as income under SGB II rules.
 
     The Elterngeld remains exempt in the amount of the income from employment before
     the birth, up to the Mindestbetrag (§ 10 Abs. 5 S. 2 BEEG). Unlike § 10 Abs. 4
@@ -373,10 +365,8 @@ def anrechenbarer_betrag_paragraph_10_abs_5_beeg_m(
 
     Relevant for Unterhaltsvorschuss.
     """
-    return max(
-        betrag_m - min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m),
-        0.0,
-    )
+    höchstbetrag = min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m)
+    return min(betrag_m, höchstbetrag)
 
 
 @policy_function(unit=TTSIMUnit.DIMENSIONLESS)

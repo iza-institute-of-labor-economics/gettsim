@@ -61,10 +61,10 @@ inputs:
           - 0.0
 outputs:
   elterngeld:
-    anrechenbarer_betrag_paragraph_10_abs_5_beeg_m:
+    freibetrag_paragraph_10_abs_5_beeg_m:
       - 300.0
-      - 600.0
-      - 500.0
+      - 0.0
+      - 100.0
   unterhaltsvorschuss:
     einkommen_m:
       - 300.0

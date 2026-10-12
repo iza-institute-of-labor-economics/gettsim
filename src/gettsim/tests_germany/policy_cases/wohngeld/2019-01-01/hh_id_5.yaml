@@ -46,11 +46,9 @@ inputs:
       lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
         - 0.0
     elterngeld:
-      anrechenbarer_betrag_paragraph_10_abs_1_beeg_m:
+      freibetrag_paragraph_10_abs_1_beeg_m:
         - 0.0
       betrag_m:
-        - 0.0
-      angerechnete_mutterschaftsleistungen_m:
         - 0.0
     familie:
       alleinerziehend:

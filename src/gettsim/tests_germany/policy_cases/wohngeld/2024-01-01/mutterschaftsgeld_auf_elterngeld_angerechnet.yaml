@@ -145,10 +145,10 @@ outputs:
       - 700.0
       - 0.0
       - 0.0
-    anrechenbarer_betrag_paragraph_10_abs_1_beeg_m:
-      - 160.0
-      - 400.0
-      - 160.0
+    freibetrag_paragraph_10_abs_1_beeg_m:
+      - 300.0
+      - 300.0
+      - 300.0
       - 0.0
   wohngeld:
     einkommen_vor_freibetrag_m:

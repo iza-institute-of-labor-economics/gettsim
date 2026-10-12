@@ -331,8 +331,8 @@ def einkommen_m(
     einnahmen__kapitalerträge_m: float,
     einnahmen__renten__betrag_gesamt_m: float,
     einkommensteuer__einkünfte__sonstige__alle_weiteren_m: float,
-    einnahmen__lohn_und_einkommensersatzleistungen_ohne_elterngeld_m: float,
-    elterngeld__anrechenbarer_betrag_paragraph_10_abs_5_beeg_m: float,
+    einnahmen__lohn_und_einkommensersatzleistungen_m: float,
+    elterngeld__freibetrag_paragraph_10_abs_5_beeg_m: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment.
 
@@ -348,8 +348,8 @@ def einkommen_m(
         + einnahmen__kapitalerträge_m
         + einnahmen__renten__betrag_gesamt_m
         + einkommensteuer__einkünfte__sonstige__alle_weiteren_m
-        + einnahmen__lohn_und_einkommensersatzleistungen_ohne_elterngeld_m
-        + elterngeld__anrechenbarer_betrag_paragraph_10_abs_5_beeg_m
+        + einnahmen__lohn_und_einkommensersatzleistungen_m
+        - elterngeld__freibetrag_paragraph_10_abs_5_beeg_m
     )
 
 

@@ -18,12 +18,7 @@ def lohn_und_einkommensersatzleistungen_ohne_elterngeld_m(
     sozialversicherung__kranken__mutterschaftsgeld_m: float,
     sozialversicherung__unfall__verletztengeld_m: float,
 ) -> float:
-    """Sum of the benefits under § 32b Abs. 1 S. 1 Nr. 1 EStG except Elterngeld.
-
-    Wohngeld (§ 14 Abs. 2 Nr. 6 WoGG) and Grundsicherung im Alter (§ 82 Abs. 1 SGB
-    XII) read this sum and add Elterngeld after the allowance of § 10 BEEG, which also
-    covers the Mutterschaftsgeld credited against the Elterngeld.
-    """
+    """Sum of the benefits under § 32b Abs. 1 S. 1 Nr. 1 EStG except Elterngeld."""
     return (
         sozialversicherung__arbeitslosen__betrag_m
         + sozialversicherung__arbeitslosen__kurzarbeitergeld_m
