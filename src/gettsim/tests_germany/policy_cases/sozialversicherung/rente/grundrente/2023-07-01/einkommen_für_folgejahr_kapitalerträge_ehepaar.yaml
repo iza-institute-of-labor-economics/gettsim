@@ -1,0 +1,87 @@
+---
+info:
+  note: |-
+    GRA Beispiel 10, Fall A: jointly assessed spouses with joint capital income of
+    5,000.00 EUR in 2023, less the joint Sparer-Pauschbetrag of 2,000.00 EUR;
+    3,000.00 EUR are credited, "jedem Ehegatten zur Hälfte zuzurechnen"
+    (§ 97a Abs. 2 S. 1 Nr. 3 SGB VI).
+    Assumed: the capital income is held equally (2,500.00 each); zvE and pensions
+    are zero; the capital income is declared (§ 97a Abs. 6).
+    Per spouse: 3,000.00 / 2 / 12 = 125.00.
+  precision_atol: 0.01
+  source: |-
+    https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0076_100/gra_sgb006_p_0097a.html
+inputs:
+  assumed:
+    einkommensteuer:
+      einkünfte:
+        sonstige:
+          rente:
+            alter_beginn_leistungsbezug_sonstige_private_vorsorge:
+              - 65
+              - 65
+      zu_versteuerndes_einkommen_y_sn:
+        - 0.0
+        - 0.0
+    einnahmen:
+      kapitalerträge_y:
+        - 2500.0
+        - 2500.0
+      renten:
+        aus_berufsständischen_versicherungen_m:
+          - 0.0
+          - 0.0
+        basisrente_m:
+          - 0.0
+          - 0.0
+        betriebliche_altersvorsorge_m:
+          - 0.0
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
+          - 0.0
+        sonstige_private_vorsorge_m:
+          - 0.0
+          - 0.0
+    sozialversicherung:
+      rente:
+        altersrente:
+          bruttorente_m:
+            - 0.0
+            - 0.0
+        bezieht_altersrente:
+          - false
+          - false
+        erwerbsminderung:
+          betrag_m:
+            - 0.0
+            - 0.0
+        grundrente:
+          betrag_m:
+            - 0.0
+            - 0.0
+        jahr_renteneintritt:
+          - 2020
+          - 2020
+  provided:
+    einkommensteuer:
+      gemeinsam_veranlagt:
+        - true
+        - true
+    familie:
+      p_id_ehepartner:
+        - 1
+        - 0
+    hh_id:
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        einkommen_für_einkommensberechnung_im_folgejahr_m:
+          - 125.0
+          - 125.0

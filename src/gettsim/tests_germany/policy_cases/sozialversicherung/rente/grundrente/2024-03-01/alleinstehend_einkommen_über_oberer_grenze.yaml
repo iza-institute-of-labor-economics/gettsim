@@ -1,0 +1,40 @@
+---
+info:
+  note: |-
+    Lohnsteuer kompakt, "Beispiel für eine alleinstehende Person 2024": Zuschlag
+    320 EUR; zu versteuerndes Einkommen inklusive des steuerfreien Teils der Rente
+    1,800 EUR im Monat.
+    Thresholds 2024 (Rentenwert of 01.07.2023, 37.60, § 97a Abs. 4 S. 5 SGB VI):
+    36.56 * 37.60 = 1,374.66 -> 1,375; 46.78 * 37.60 = 1,758.93 -> 1,759.
+    Credited: 0.6 * (1,759 - 1,375) + (1,800 - 1,759) = 230.40 + 41.00 = 271.40.
+    Zuschlag: 320.00 - 271.40 = 48.60.
+    The source rounds 230.40 to 230 and reports 49 EUR; § 97a prescribes no such
+    rounding and the DRV examples keep cents, so the case expects 48.60.
+  precision_atol: 0.01
+  source: |-
+    https://www.lohnsteuer-kompakt.de/steuerwissen/grundrentenzuschlag-hoehere-einkommensfreibetraege-ab-2024/
+inputs:
+  assumed: {}
+  provided:
+    familie:
+      p_id_ehepartner:
+        - -1
+    hh_id:
+      - 0
+    p_id:
+      - 0
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 320.0
+          einkommen_vorjahr_m:
+            - 1800.0
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 271.4
+        betrag_m:
+          - 48.6

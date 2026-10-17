@@ -1,0 +1,54 @@
+---
+info:
+  note: |-
+    GRA Beispiel 7 (Freibetrag, zu Abschnitt 5). Rentenbeginn 01.02.2026, Zuschlag
+    vor Einkommensanrechnung 100.00 EUR, gemeinsames zu versteuerndes Einkommen der
+    Ehegatten 2,900.00 EUR monatlich.
+    Assumed: the joint income is split equally between the spouses (1,450.00 each);
+    steuerfreier Teil and capital income are zero; the spouse has no Zuschlag of
+    their own.
+    Thresholds 2026 (Rentenwert of 01.07.2025, 40.79, § 97a Abs. 4 S. 5 SGB VI),
+    rounded up to full Euro (Abs. 4 S. 1):
+    57.03 * 40.79 = 2,326.25 -> 2,327; 67.27 * 40.79 = 2,743.94 -> 2,744.
+    Credited: 0.6 * (2,744 - 2,327) + (2,900 - 2,744) = 250.20 + 156.00 = 406.20.
+    Zuschlag: max(100.00 - 406.20, 0) = 0.00.
+  precision_atol: 0.01
+  source: |-
+    DRV, Gemeinsame Rechtliche Anweisungen zu § 97a SGB VI, Version 008.00,
+    Beispiel 7.
+    https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0076_100/gra_sgb006_p_0097a.html
+inputs:
+  assumed:
+    sozialversicherung:
+      rente:
+        grundrente:
+          einkommen_vorjahr_m:
+            - 1450.0
+            - 1450.0
+  provided:
+    familie:
+      p_id_ehepartner:
+        - 1
+        - 0
+    hh_id:
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 100.0
+            - 0.0
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 406.2
+          - 406.2
+        betrag_m:
+          - 0.0
+          - 0.0

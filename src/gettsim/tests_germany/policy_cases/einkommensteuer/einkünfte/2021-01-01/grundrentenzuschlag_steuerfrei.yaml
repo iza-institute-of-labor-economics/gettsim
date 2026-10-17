@@ -1,0 +1,59 @@
+---
+info:
+  note: |-
+    Hand-derived. The pension share resting on the Grundrentenzuschlag is tax-free
+    (§ 3 Nr. 14a EStG, inserted by the Jahressteuergesetz 2022 v. 16.12.2022, BGBl.
+    I S. 2294, Art. 3, first applicable for VZ 2021 under § 52 Abs. 4 EStG).
+    Altersrente without Zuschlag 1,000.00 EUR, Zuschlag 100.00 EUR; pension since
+    2021, Besteuerungsanteil 81 % (§ 22 Nr. 1 S. 3 lit. a dbl. aa EStG).
+    Taxable pension: 0.81 * 1,000.00 = 810.00 (not 0.81 * 1,100.00 = 891.00).
+  precision_atol: 0.01
+  source: |-
+    https://media.offenegesetze.de/bgbl1/2022/bgbl1_2022_51.pdf
+inputs:
+  assumed: {}
+  provided:
+    einkommensteuer:
+      einkünfte:
+        sonstige:
+          rente:
+            alter_beginn_leistungsbezug_sonstige_private_vorsorge:
+              - 65
+    einnahmen:
+      renten:
+        aus_berufsständischen_versicherungen_m:
+          - 0.0
+        basisrente_m:
+          - 0.0
+        betriebliche_altersvorsorge_m:
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
+        sonstige_private_vorsorge_m:
+          - 0.0
+    hh_id:
+      - 0
+    p_id:
+      - 0
+    sozialversicherung:
+      rente:
+        altersrente:
+          bruttorente_m:
+            - 1000.0
+        bezieht_altersrente:
+          - true
+        erwerbsminderung:
+          betrag_m:
+            - 0.0
+        grundrente:
+          betrag_m:
+            - 100.0
+        jahr_renteneintritt:
+          - 2021
+outputs:
+  einkommensteuer:
+    einkünfte:
+      sonstige:
+        rente:
+          steuerpflichtige_einnahmen_m:
+            - 810.0

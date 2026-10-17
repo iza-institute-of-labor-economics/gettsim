@@ -1,0 +1,48 @@
+---
+info:
+  note: |-
+    DRV-Broschüre "Grundrente: Zuschlag zur Rente", 5. Auflage (5/2026), p. 16 f.,
+    "Monika L.": married, she and her husband have a joint monthly income of
+    2,800 EUR; 2,327 EUR are not credited; 60 % of 417 EUR = 250.20 EUR;
+    2,800 - 2,744 = 56 EUR; credited 306.20 EUR.
+    Assumed: the joint income is split equally (1,400.00 each); Zuschlag before
+    crediting 400.00 EUR (not stated); the husband has no Zuschlag.
+    Thresholds 2026 (Rentenwert of 01.07.2025, 40.79):
+    57.03 * 40.79 = 2,326.25 -> 2,327; 67.27 * 40.79 = 2,743.94 -> 2,744.
+    Credited: 0.6 * 417 + 56 = 306.20 for both spouses (computed from the joint
+    income). Zuschlag: 400.00 - 306.20 = 93.80.
+  precision_atol: 0.01
+  source: |-
+    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.pdf?__blob=publicationFile&v=10
+inputs:
+  assumed:
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 400.0
+            - 0.0
+          einkommen_vorjahr_m:
+            - 1400.0
+            - 1400.0
+  provided:
+    familie:
+      p_id_ehepartner:
+        - 1
+        - 0
+    hh_id:
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 306.2
+          - 306.2
+        betrag_m:
+          - 93.8
+          - 0.0

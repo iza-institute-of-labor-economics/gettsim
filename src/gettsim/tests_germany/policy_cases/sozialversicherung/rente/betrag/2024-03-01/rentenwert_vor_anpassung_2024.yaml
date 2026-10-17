@@ -1,0 +1,33 @@
+---
+info:
+  note: |-
+    The Rentenwert of 39.32 EUR set by the Rentenwertbestimmungsverordnung 2024 (V.
+    v. 17.06.2024, BGBl. 2024 I Nr. 194) applies from 01.07.2024. In March 2024 the
+    Rentenwert of 01.07.2023, 37.60 EUR (V. v. 21.06.2023, BGBl. 2023 I Nr. 164),
+    is in force.
+    Altersrente from 10 Entgeltpunkte, Zugangsfaktor 1:
+    10 * 1.0 * 37.60 = 376.00.
+  precision_atol: 0.01
+  source: V. v. 17.06.2024 BGBl. 2024 I Nr. 194; V. v. 21.06.2023 BGBl. 2023 I Nr. 164
+inputs:
+  assumed: {}
+  provided:
+    hh_id:
+      - 0
+    p_id:
+      - 0
+    sozialversicherung:
+      rente:
+        altersrente:
+          zugangsfaktor:
+            - 1.0
+        bezieht_altersrente:
+          - true
+        entgeltpunkte:
+          - 10.0
+outputs:
+  sozialversicherung:
+    rente:
+      altersrente:
+        bruttorente_basisbetrag_m:
+          - 376.0

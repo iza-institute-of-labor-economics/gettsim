@@ -1,0 +1,101 @@
+---
+info:
+  note: |-
+    Hand-derived. Jointly assessed spouses; the target computes each spouse's
+    § 97a Abs. 2 S. 1 SGB VI income for the following year:
+    - Nr. 1: the joint zvE (24,000.00 EUR per year) split equally, 12,000.00 each.
+    - Nr. 2: the steuerfreier Teil of pensions under § 22 Nr. 1 S. 3 lit. a dbl. aa
+      EStG (gesetzliche Rente, Basisrente, berufsständische Versorgung). GETTSIM
+      taxes these at the Besteuerungsanteil of the year the pension began, so the
+      steuerfreier Teil is (1 - Besteuerungsanteil) times the pension. Pensions taxed
+      at the Ertragsanteil (dbl. bb) are not part of Nr. 2.
+    - The Grundrentenzuschlag is tax-free (§ 3 Nr. 14a EStG) and part of neither
+      Nr. 1 nor Nr. 2.
+    - Nr. 3: no capital income.
+    Spouse 0: Altersrente 1,000.00 EUR plus Zuschlag 100.00 EUR, pension since 2020
+    (Besteuerungsanteil 80 %); a private pension (sonstige private Vorsorge) of
+    300.00 EUR, taxed at the Ertragsanteil.
+    Steuerfreier Teil: (1 - 0.80) * 1,000.00 = 200.00 (the Zuschlag and the private
+    pension are left out).
+    Income: (12,000.00 + 12 * 200.00) / 12 = 1,000.00 + 200.00 = 1,200.00.
+    Spouse 1: Altersrente 500.00 EUR and berufsständische Versorgung 200.00 EUR,
+    since 2015 (Besteuerungsanteil 70 %).
+    Steuerfreier Teil: (1 - 0.70) * (500.00 + 200.00) = 210.00.
+    Income: 1,000.00 + 210.00 = 1,210.00.
+    The zvE is given as input, so this case does not depend on the income tax
+    computation.
+  precision_atol: 0.01
+  source: § 97a Abs. 2 S. 1, 7 SGB VI; § 3 Nr. 14a, § 22 Nr. 1 S. 3 lit. a EStG
+inputs:
+  assumed: {}
+  provided:
+    einkommensteuer:
+      einkünfte:
+        sonstige:
+          rente:
+            alter_beginn_leistungsbezug_sonstige_private_vorsorge:
+              - 65
+              - 65
+      gemeinsam_veranlagt:
+        - true
+        - true
+      zu_versteuerndes_einkommen_y_sn:
+        - 24000.0
+        - 24000.0
+    einnahmen:
+      kapitalerträge_y:
+        - 0.0
+        - 0.0
+      renten:
+        aus_berufsständischen_versicherungen_m:
+          - 0.0
+          - 200.0
+        basisrente_m:
+          - 0.0
+          - 0.0
+        betriebliche_altersvorsorge_m:
+          - 0.0
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
+          - 0.0
+        sonstige_private_vorsorge_m:
+          - 300.0
+          - 0.0
+    familie:
+      p_id_ehepartner:
+        - 1
+        - 0
+    hh_id:
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+    sozialversicherung:
+      rente:
+        altersrente:
+          bruttorente_m:
+            - 1000.0
+            - 500.0
+        bezieht_altersrente:
+          - true
+          - true
+        erwerbsminderung:
+          betrag_m:
+            - 0.0
+            - 0.0
+        grundrente:
+          betrag_m:
+            - 100.0
+            - 0.0
+        jahr_renteneintritt:
+          - 2020
+          - 2015
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        einkommen_für_einkommensberechnung_im_folgejahr_m:
+          - 1200.0
+          - 1210.0

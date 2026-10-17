@@ -1,0 +1,47 @@
+---
+info:
+  note: |-
+    Hand-derived. A married Berechtigter with income 2,000.00 EUR and Zuschlag before
+    crediting 300.00 EUR; the spouse has no income and no Zuschlag. The couple
+    thresholds of § 97a Abs. 4 S. 4 SGB VI apply whenever the Berechtigter is married,
+    also with a spouse without income (GRA Abschnitt 5: "Der für Ehegatten höhere
+    Freibetrag ist auch dann zu berücksichtigen, wenn der Ehegatte des Berechtigten
+    über kein eigenes Einkommen verfügt.").
+    Lower couple threshold 2026: 57.03 * 40.79 = 2,326.25 -> 2,327.
+    Income 2,000.00 < 2,327, so nothing is credited; Zuschlag 300.00.
+    (The single thresholds 1,492 / 1,909 would credit 0.6 * 417 + 91 = 341.20.)
+  precision_atol: 0.01
+  source: |-
+    https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0076_100/gra_sgb006_p_0097a.html
+inputs:
+  assumed: {}
+  provided:
+    familie:
+      p_id_ehepartner:
+        - 1
+        - 0
+    hh_id:
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 300.0
+            - 0.0
+          einkommen_vorjahr_m:
+            - 2000.0
+            - 0.0
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 0.0
+          - 0.0
+        betrag_m:
+          - 300.0
+          - 0.0

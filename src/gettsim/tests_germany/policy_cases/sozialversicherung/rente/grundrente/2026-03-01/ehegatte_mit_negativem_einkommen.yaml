@@ -1,0 +1,45 @@
+---
+info:
+  note: |-
+    Hand-derived. The § 97a Abs. 2 S. 1 income is not floored at zero, so a spouse's
+    negative income (losses in the zvE) offsets the Berechtigter's income.
+    Berechtigter income 2,800.00 EUR, Zuschlag before crediting 300.00 EUR; spouse
+    income -300.00 EUR, no Zuschlag. Couple sum 2,500.00.
+    Couple thresholds 2026: 2,327 / 2,744 (57.03 / 67.27 * 40.79, rounded up).
+    Credited: 0.6 * (2,500 - 2,327) = 103.80 for both spouses.
+    Zuschlag: 300.00 - 103.80 = 196.20.
+    (Flooring the spouse at zero would credit 306.20 and pay no Zuschlag.)
+  precision_atol: 0.01
+  source: § 97a Abs. 2 S. 1, Abs. 4 S. 4 SGB VI
+inputs:
+  assumed: {}
+  provided:
+    familie:
+      p_id_ehepartner:
+        - 1
+        - 0
+    hh_id:
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 300.0
+            - 0.0
+          einkommen_vorjahr_m:
+            - 2800.0
+            - -300.0
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 103.8
+          - 103.8
+        betrag_m:
+          - 196.2
+          - 0.0

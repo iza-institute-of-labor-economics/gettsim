@@ -1,0 +1,59 @@
+---
+info:
+  note: |-
+    Hand-derived. Changes of the thresholds take effect only from the 1 January
+    after a Rentenwert adjustment (§ 97a Abs. 4 S. 5 with Abs. 5 S. 2 SGB VI; GRA
+    Abschnitt 5: "Die Änderungen werden allerdings erst zum darauffolgenden 01.01.
+    wirksam"). So in September 2026 the thresholds still rest on the Rentenwert of
+    01.07.2025 (40.79), not on the 42.52 in force since 01.07.2026.
+    The two households repeat the DRV-Broschüre 5/2026 examples (thresholds stated
+    "seit Januar 2026"):
+    - Single, income 1,550.00, Zuschlag before crediting 100.00:
+      36.56 * 40.79 = 1,491.28 -> 1,492; credited 0.6 * 58 = 34.80;
+      Zuschlag 65.20.
+    - Married, income 1,400.00 each, Zuschlag 400.00 for one spouse:
+      57.03 * 40.79 -> 2,327, 67.27 * 40.79 -> 2,744;
+      credited 0.6 * 417 + 56 = 306.20; Zuschlag 93.80.
+    (With 42.52 the thresholds would be 1,555 and 2,425 / 2,861.)
+  precision_atol: 0.01
+  source: |-
+    https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0076_100/gra_sgb006_p_0097a.html
+inputs:
+  assumed: {}
+  provided:
+    familie:
+      p_id_ehepartner:
+        - -1
+        - 2
+        - 1
+    hh_id:
+      - 0
+      - 1
+      - 1
+    p_id:
+      - 0
+      - 1
+      - 2
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 100.0
+            - 400.0
+            - 0.0
+          einkommen_vorjahr_m:
+            - 1550.0
+            - 1400.0
+            - 1400.0
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 34.8
+          - 306.2
+          - 306.2
+        betrag_m:
+          - 65.2
+          - 93.8
+          - 0.0

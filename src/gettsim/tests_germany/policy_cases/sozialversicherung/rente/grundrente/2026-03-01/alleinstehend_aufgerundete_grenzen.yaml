@@ -1,0 +1,62 @@
+---
+info:
+  note: |-
+    Hand-derived. Four singles, each with a Zuschlag before crediting of 300.00 EUR,
+    with incomes on both sides of each threshold. § 97a Abs. 4 S. 1 SGB VI rounds
+    every threshold up to a full Euro.
+    Thresholds 2026 (Rentenwert of 01.07.2025, 40.79, Abs. 4 S. 5):
+    36.56 * 40.79 = 1,491.2824 -> 1,492; 46.78 * 40.79 = 1,908.1562 -> 1,909.
+    - 1,491.50 (above the unrounded, below the rounded lower threshold): 0.00;
+      Zuschlag 300.00.
+    - 1,492.50: 0.6 * 0.50 = 0.30; Zuschlag 299.70.
+    - 1,908.50 (above the unrounded, below the rounded upper threshold):
+      0.6 * 416.50 = 249.90; Zuschlag 50.10.
+    - 1,910.00: 0.6 * 417 + 1.00 = 251.20; Zuschlag 48.80.
+  precision_atol: 0.01
+  source: § 97a Abs. 4 S. 1-3, 5 SGB VI
+inputs:
+  assumed: {}
+  provided:
+    familie:
+      p_id_ehepartner:
+        - -1
+        - -1
+        - -1
+        - -1
+    hh_id:
+      - 0
+      - 1
+      - 2
+      - 3
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+    sozialversicherung:
+      rente:
+        grundrente:
+          basisbetrag_m:
+            - 300.0
+            - 300.0
+            - 300.0
+            - 300.0
+          einkommen_vorjahr_m:
+            - 1491.5
+            - 1492.5
+            - 1908.5
+            - 1910.0
+outputs:
+  sozialversicherung:
+    rente:
+      grundrente:
+        anzurechnendes_einkommen_m:
+          - 0.0
+          - 0.3
+          - 249.9
+          - 251.2
+        betrag_m:
+          - 300.0
+          - 299.7
+          - 50.1
+          - 48.8
