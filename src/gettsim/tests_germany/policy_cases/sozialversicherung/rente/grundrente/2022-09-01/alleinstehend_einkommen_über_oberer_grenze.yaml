@@ -1,22 +1,11 @@
 ---
 info:
   note: |-
-    SG Nürnberg, Urteil v. 29.02.2024 - S 20 R 211/23, Tatbestand Rn. 2-4: for the
-    payments from 05/2021 to 12/2022 the DRV credited the income of 2019,
-    19,927 EUR, and paid no Zuschlag.
-    Assumed: single (marital status not stated); the 19,927 EUR are the full § 97a
-    Abs. 2 S. 1 income; Zuschlag before crediting 200.00 EUR (not stated; any value
-    up to the credited amount gives a nil Zuschlag).
-    Monthly income (§ 97a Abs. 3 S. 1): 19,927 / 12 = 1,660.58.
-    Thresholds 2022 use the Rentenwert of 01.07.2021 (West, unchanged 34.19), also
-    in September 2022 after the 01.07.2022 adjustment to 36.02 (Abs. 4 S. 5 with
-    Abs. 5 S. 2); uniform across Germany, so no Ost value:
-    36.56 * 34.19 = 1,249.99 -> 1,250; 46.78 * 34.19 = 1,599.41 -> 1,600.
-    Credited: 0.6 * (1,600 - 1,250) + (1,660.58 - 1,600) = 210.00 + 60.58 = 270.58.
-    Zuschlag: max(200.00 - 270.58, 0) = 0.00.
+    Income from SG Nürnberg, Urteil v. 29.02.2024 - S 20 R 211/23, Rn. 2-4, which
+    reports only that no Zuschlag was paid. Single status and the Zuschlag of
+    200.00 EUR are assumed; the source states neither.
   precision_atol: 0.01
-  source: |-
-    https://www.gesetze-bayern.de/Content/Rtf/Y-300-Z-BECKRS-B-2024-N-5412?all=False
+  source: Regression test.
 inputs:
   assumed:
     sozialversicherung:

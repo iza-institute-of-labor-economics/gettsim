@@ -1,18 +1,11 @@
 ---
 info:
   note: |-
-    SG Nürnberg, Urteil v. 29.02.2024 - S 20 R 211/23, Tatbestand Rn. 4: from
-    01.01.2023 the DRV credited the income of 2020, 8,453 EUR, and "kein
-    Anrechnungsbetrag mehr" resulted.
-    Assumed: single; the 8,453 EUR are the full § 97a Abs. 2 S. 1 income; Zuschlag
-    before crediting 200.00 EUR (not stated).
-    Monthly income: 8,453 / 12 = 704.42.
-    Lower threshold 2023 (Rentenwert of 01.07.2022, 36.02):
-    36.56 * 36.02 = 1,316.89 -> 1,317. Income below it, so nothing is credited.
-    Zuschlag: 200.00 - 0.00 = 200.00.
+    Income from SG Nürnberg, Urteil v. 29.02.2024 - S 20 R 211/23, Rn. 4 ("kein
+    Anrechnungsbetrag mehr"). Single status and the Zuschlag of 200.00 EUR are
+    assumed; the source states neither.
   precision_atol: 0.01
-  source: |-
-    https://www.gesetze-bayern.de/Content/Rtf/Y-300-Z-BECKRS-B-2024-N-5412?all=False
+  source: Regression test.
 inputs:
   assumed:
     sozialversicherung:

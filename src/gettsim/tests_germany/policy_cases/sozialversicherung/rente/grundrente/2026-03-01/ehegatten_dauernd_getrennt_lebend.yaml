@@ -1,19 +1,11 @@
 ---
 info:
   note: |-
-    Hand-derived. Same couple as in `ehegatte_ohne_einkommen.yaml`, but the spouses
-    live permanently apart in separate households. § 97a SGB VI names the Ehegatte
-    without a separation qualifier, so the spouse's income and the couple thresholds
-    still apply (GRA Abschnitt 2: "Dies gilt auch für dauernd getrenntlebende
-    Ehegatten").
-    Berechtigter income 2,000.00, spouse income 400.00; couple sum 2,400.00.
-    Couple thresholds 2026: 2,327 / 2,744 (57.03 / 67.27 * 40.79, rounded up).
-    Credited: 0.6 * (2,400 - 2,327) = 43.80 for both spouses.
-    Zuschlag: 300.00 - 43.80 = 256.20.
-    (Single thresholds on the own income would credit 0.6 * 417 + 91 = 341.20.)
+    Spouse's income and couple thresholds also for spouses living apart (DRV, GRA
+    zu § 97a SGB VI, Version 008.00, Abschnitt 2: "Dies gilt auch für dauernd
+    getrenntlebende Ehegatten").
   precision_atol: 0.01
-  source: |-
-    https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0076_100/gra_sgb006_p_0097a.html
+  source: Regression test.
 inputs:
   assumed: {}
   provided:

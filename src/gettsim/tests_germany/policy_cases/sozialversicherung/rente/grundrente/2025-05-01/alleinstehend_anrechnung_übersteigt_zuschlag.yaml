@@ -1,19 +1,12 @@
 ---
 info:
   note: |-
-    SG Augsburg, Gerichtsbescheid v. 01.10.2025 - S 13 R 469/25, Tatbestand Rn. 2
-    (DRV-Bescheid v. 30.04.2025): Rentenbeginn 01.05.2025; zu versteuerndes
-    Einkommen 2023 21,181 EUR (monatlich 1,765.08 EUR); anrechenbares Einkommen
-    196.25 EUR "(60% des den Grenzbetrag von 1.438 EUR übersteigenden Einkommens)";
-    Zuschlag 101.88 EUR, not paid.
-    Assumed: single (the 1,438 threshold is the single one); steuerfreier Teil and
-    capital income zero.
-    Thresholds 2025 (Rentenwert of 01.07.2024, 39.32):
-    36.56 * 39.32 = 1,437.54 -> 1,438; 46.78 * 39.32 = 1,839.39 -> 1,840.
-    Credited: 0.6 * (1,765.08 - 1,438) = 196.248 -> 196.25.
-    Zuschlag: max(101.88 - 196.25, 0) = 0.00.
+    Single status is inferred from the single threshold of 1,438 EUR applied in the
+    source.
   precision_atol: 0.01
   source: |-
+    SG Augsburg, Gerichtsbescheid v. 01.10.2025 - S 13 R 469/25, Tatbestand Rn. 2
+    (DRV-Bescheid v. 30.04.2025).
     https://www.gesetze-bayern.de/Content/Rtf/Y-300-Z-BECKRS-B-2025-N-44738?all=False
 inputs:
   assumed: {}

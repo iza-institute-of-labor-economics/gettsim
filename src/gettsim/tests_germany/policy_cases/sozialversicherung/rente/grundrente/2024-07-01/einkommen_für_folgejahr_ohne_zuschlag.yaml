@@ -1,31 +1,8 @@
 ---
 info:
-  note: |-
-    Hand-derived. Jointly assessed spouses; the target computes each spouse's
-    § 97a Abs. 2 S. 1 SGB VI income for the following year:
-    - Nr. 1: the joint zvE (24,000.00 EUR per year) split equally, 12,000.00 each.
-    - Nr. 2: the steuerfreier Teil of pensions under § 22 Nr. 1 S. 3 lit. a dbl. aa
-      EStG (gesetzliche Rente, Basisrente, berufsständische Versorgung). GETTSIM
-      taxes these at the Besteuerungsanteil of the year the pension began, so the
-      steuerfreier Teil is (1 - Besteuerungsanteil) times the pension. Pensions taxed
-      at the Ertragsanteil (dbl. bb) are not part of Nr. 2.
-    - The Grundrentenzuschlag is tax-free (§ 3 Nr. 14a EStG) and part of neither
-      Nr. 1 nor Nr. 2.
-    - Nr. 3: no capital income.
-    Spouse 0: Altersrente 1,000.00 EUR plus Zuschlag 100.00 EUR, pension since 2020
-    (Besteuerungsanteil 80 %); a private pension (sonstige private Vorsorge) of
-    300.00 EUR, taxed at the Ertragsanteil.
-    Steuerfreier Teil: (1 - 0.80) * 1,000.00 = 200.00 (the Zuschlag and the private
-    pension are left out).
-    Income: (12,000.00 + 12 * 200.00) / 12 = 1,000.00 + 200.00 = 1,200.00.
-    Spouse 1: Altersrente 500.00 EUR and berufsständische Versorgung 200.00 EUR,
-    since 2015 (Besteuerungsanteil 70 %).
-    Steuerfreier Teil: (1 - 0.70) * (500.00 + 200.00) = 210.00.
-    Income: 1,000.00 + 210.00 = 1,210.00.
-    The zvE is given as input, so this case does not depend on the income tax
-    computation.
+  note: ''
   precision_atol: 0.01
-  source: § 97a Abs. 2 S. 1, 7 SGB VI; § 3 Nr. 14a, § 22 Nr. 1 S. 3 lit. a EStG
+  source: Regression test.
 inputs:
   assumed: {}
   provided:

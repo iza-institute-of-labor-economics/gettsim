@@ -1,15 +1,13 @@
 ---
 info:
   note: |-
-    GRA Beispiel 10, Fall A: jointly assessed spouses with joint capital income of
-    5,000.00 EUR in 2023, less the joint Sparer-Pauschbetrag of 2,000.00 EUR;
-    3,000.00 EUR are credited, "jedem Ehegatten zur Hälfte zuzurechnen"
-    (§ 97a Abs. 2 S. 1 Nr. 3 SGB VI).
-    Assumed: the capital income is held equally (2,500.00 each); zvE and pensions
-    are zero; the capital income is declared (§ 97a Abs. 6).
-    Per spouse: 3,000.00 / 2 / 12 = 125.00.
+    Only Fall A of the source. The joint capital income of 5,000.00 EUR is split
+    equally between the spouses, and the spouses have no other income (assumed).
   precision_atol: 0.01
   source: |-
+    DRV, Gemeinsame Rechtliche Anweisungen zu § 97a SGB VI, Version 008.00, Stand
+    15.01.2026, Beispiel 10, Fall A (Kapitalerträge bei Nichtveranlagung, Beispiel zu
+    Abschnitt 3.6.1).
     https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0076_100/gra_sgb006_p_0097a.html
 inputs:
   assumed:
@@ -82,6 +80,6 @@ outputs:
   sozialversicherung:
     rente:
       grundrente:
-        einkommen_im_folgejahr_m:
-          - 125.0
-          - 125.0
+        einkommen_im_folgejahr_y:
+          - 1500.0
+          - 1500.0

@@ -1,15 +1,8 @@
 ---
 info:
-  note: |-
-    Hand-derived. The § 97a Abs. 2 S. 1 SGB VI income is not floored at zero: a
-    negative zvE (losses) reduces the steuerfreier Teil of the pension.
-    Single, zvE -1,200.00 EUR per year; Altersrente 1,000.00 EUR since 2020
-    (Besteuerungsanteil 80 %, steuerfreier Teil (1 - 0.80) * 1,000.00 = 200.00 per
-    month); no capital income.
-    Income: -1,200.00 / 12 + 200.00 = -100.00 + 200.00 = 100.00.
-    (Flooring the zvE at zero would give 200.00.)
+  note: ''
   precision_atol: 0.01
-  source: § 97a Abs. 2 S. 1 SGB VI; § 2 Abs. 5 EStG
+  source: Regression test.
 inputs:
   assumed: {}
   provided:
