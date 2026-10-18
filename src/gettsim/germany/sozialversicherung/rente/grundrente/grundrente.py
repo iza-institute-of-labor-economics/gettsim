@@ -6,6 +6,7 @@ from gettsim.tt import (
     RoundingSpec,
     TTSIMUnit,
     cast_ttsim_unit,
+    param_function,
     policy_function,
 )
 
@@ -93,6 +94,54 @@ def anzurechnendes_einkommen_m(
         anrechnungssätze["zwischen_den_grenzen"] * einkommen_zwischen_den_grenzen
         + anrechnungssätze["über_der_oberen_grenze"] * einkommen_über_der_oberen_grenze
     )
+
+
+@param_function(
+    start_date="2021-01-01",
+    end_date="2023-12-31",
+    leaf_name="rentenwert_für_einkommensgrenzen_m",
+    unit=TTSIMUnit.CURRENCY.PER_MONTH,
+)
+def rentenwert_für_einkommensgrenzen_nach_wohnort_m(
+    sozialversicherung__rente__parameter_rentenwert_nach_wohnort_jahresanfang: dict[
+        str, float
+    ],
+) -> float:
+    """Rentenwert that sets the income thresholds of the calendar year.
+
+    Changes of the thresholds take effect on 1 January, so the Rentenwert in force on
+    1 January applies for the whole year.
+
+    Until 30 June 2023 the Rentenwert differed between West and Ost. The thresholds
+    are nevertheless uniform across Germany and use the West value, also for
+    Berechtigte living in the Beitrittsgebiet (DRV, GRA zu § 97a SGB VI: "Durch die
+    Anknüpfung an den aktuellen Rentenwert gelten die Freibeträge einheitlich im
+    gesamten Bundesgebiet"; BT-Drs. 19/18473, which states the 2021 thresholds as
+    multiples of the West value).
+
+    Reference: § 97a Abs. 4 S. 5 i.V.m. Abs. 5 S. 2 SGB VI
+    """
+    return sozialversicherung__rente__parameter_rentenwert_nach_wohnort_jahresanfang[
+        "west"
+    ]
+
+
+@param_function(
+    start_date="2024-01-01",
+    leaf_name="rentenwert_für_einkommensgrenzen_m",
+    unit=TTSIMUnit.CURRENCY.PER_MONTH,
+)
+def rentenwert_für_einkommensgrenzen_einheitlich_m(
+    sozialversicherung__rente__rentenwert_m_jahresanfang: float,
+) -> float:
+    """Rentenwert that sets the income thresholds of the calendar year.
+
+    Changes of the thresholds take effect on 1 January, so the Rentenwert in force on
+    1 January applies for the whole year.
+
+    Reference: § 97a Abs. 4 S. 5 i.V.m. Abs. 5 S. 2 SGB VI
+    """
+    return sozialversicherung__rente__rentenwert_m_jahresanfang
 
 
 @policy_function(
