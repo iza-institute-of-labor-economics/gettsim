@@ -47,8 +47,7 @@ def steuerpflichtige_einnahmen_m_nach_ertragsanteil(
     unit=TTSIMUnit.CURRENCY.PER_MONTH,
 )
 def steuerpflichtige_einnahmen_m_nach_besteuerungsanteil(
-    besteuerungsanteil: float,
-    einnahmen_mit_besteuerungsanteil_m: float,
+    steuerpflichtiger_anteil_der_renteneinnahmen_m: float,
     ertragsanteil_sonstige_private_vorsorge: float,
     einnahmen__renten__geförderte_private_vorsorge_m: float,
     einnahmen__renten__sonstige_private_vorsorge_m: float,
@@ -59,7 +58,7 @@ def steuerpflichtige_einnahmen_m_nach_besteuerungsanteil(
     Reference: § 22 Nr. 1 Satz 3 Buchstabe a EStG
     """
     return (
-        besteuerungsanteil * einnahmen_mit_besteuerungsanteil_m
+        steuerpflichtiger_anteil_der_renteneinnahmen_m
         + ertragsanteil_sonstige_private_vorsorge
         * einnahmen__renten__sonstige_private_vorsorge_m
         + einnahmen__renten__betriebliche_altersvorsorge_m
@@ -67,18 +66,30 @@ def steuerpflichtige_einnahmen_m_nach_besteuerungsanteil(
     )
 
 
+@policy_function(start_date="2005-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
+def steuerpflichtiger_anteil_der_renteneinnahmen_m(
+    besteuerungsanteil: float,
+    renten_aus_basisversorgung_m: float,
+) -> float:
+    """Taxable share of the pensions from the Basisversorgung.
+
+    Reference: § 22 Nr. 1 Satz 3 Buchstabe a Doppelbuchstabe aa EStG
+    """
+    return besteuerungsanteil * renten_aus_basisversorgung_m
+
+
 @policy_function(
     start_date="2005-01-01",
     end_date="2020-12-31",
-    leaf_name="einnahmen_mit_besteuerungsanteil_m",
+    leaf_name="renten_aus_basisversorgung_m",
     unit=TTSIMUnit.CURRENCY.PER_MONTH,
 )
-def einnahmen_mit_besteuerungsanteil_m_bis_2020(
+def renten_aus_basisversorgung_m_bis_2020(
     einnahmen__renten__gesetzliche_m: float,
     einnahmen__renten__basisrente_m: float,
     einnahmen__renten__aus_berufsständischen_versicherungen_m: float,
 ) -> float:
-    """Pensions taxed at the Besteuerungsanteil.
+    """Pensions from the Basisversorgung, taxed at the Besteuerungsanteil.
 
     Reference: § 22 Nr. 1 Satz 3 Buchstabe a Doppelbuchstabe aa EStG
     """
@@ -91,17 +102,17 @@ def einnahmen_mit_besteuerungsanteil_m_bis_2020(
 
 @policy_function(
     start_date="2021-01-01",
-    leaf_name="einnahmen_mit_besteuerungsanteil_m",
+    leaf_name="renten_aus_basisversorgung_m",
     unit=TTSIMUnit.CURRENCY.PER_MONTH,
 )
-def einnahmen_mit_besteuerungsanteil_m_ohne_grundrentenzuschlag(
+def renten_aus_basisversorgung_m_ohne_grundrentenzuschlag(
     einnahmen__renten__gesetzliche_m: float,
     einnahmen__renten__basisrente_m: float,
     einnahmen__renten__aus_berufsständischen_versicherungen_m: float,
     sozialversicherung__rente__grundrente__betrag_m: float,
     sozialversicherung__rente__bezieht_altersrente: bool,
 ) -> float:
-    """Pensions taxed at the Besteuerungsanteil, without the Grundrentenzuschlag.
+    """Pensions from the Basisversorgung, without the Grundrentenzuschlag.
 
     The pension share resting on the Grundrentenzuschlag is tax-free. The Zuschlag is
     part of the Altersrente only while the person receives it.
