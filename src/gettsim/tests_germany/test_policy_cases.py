@@ -82,6 +82,8 @@ EXPECTED_UNIT_CHECK_LOCAL_CASTS = (
     "sozialversicherung__rente__grundrente__anzurechnendes_einkommen_m",
     "sozialversicherung__rente__grundrente__höchstbetrag_m",
     "sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag_m",
+    "sozialversicherung__rente__grundrente__obere_einkommensgrenze_m",
+    "sozialversicherung__rente__grundrente__untere_einkommensgrenze_m",
     "sozialversicherung__rente__neue_entgeltpunkte_y",
     "vorrangprüfungen__wohngeld_kinderzuschlag_vorrangig_oder_günstiger",
     "wohngeld__basisbetrag_m_wthh",
