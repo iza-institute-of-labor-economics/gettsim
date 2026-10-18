@@ -15,6 +15,26 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 
 ## Unreleased
 
+- {gh}`XXXX` Base the income test of the Grundrentenzuschlag on the § 97a Abs. 2 SGB VI
+  income (zu versteuerndes Einkommen, steuerfreier Teil of pensions, and capital income
+  under the Abgeltungsteuer) instead of gross receipts. The income thresholds are
+  rounded up to full Euro and use the Rentenwert of the previous 1 July for the whole
+  calendar year. The Grundrentenzuschlag is tax-free (§ 3 Nr. 14a EStG). The Rentenwert
+  of 39.32 EUR applies from 1 July 2024 instead of 7 January 2024.
+
+  New input `sozialversicherung__rente__grundrente__einkommen_vorjahr_m`, which replaces
+  `sozialversicherung__rente__grundrente__gesamteinnahmen_aus_renten_vorjahr_m`,
+  `sozialversicherung__rente__grundrente__bruttolohn_vorjahr_y`,
+  `sozialversicherung__rente__grundrente__einnahmen_aus_selbstständiger_arbeit_vorvorjahr_y`,
+  `sozialversicherung__rente__grundrente__einnahmen_aus_vermietung_und_verpachtung_vorvorjahr_y`,
+  and
+  `sozialversicherung__rente__grundrente__einnahmen_aus_kapitalvermögen_vorvorjahr_y`.
+  The target
+  `sozialversicherung__rente__grundrente__gesamteinnahmen_aus_renten_für_einkommensberechnung_im_folgejahr_m`
+  is renamed to
+  `sozialversicherung__rente__grundrente__einkommen_für_einkommensberechnung_im_folgejahr_m`.
+  ({ghuser}`MImmesberger`)
+
 - {gh}`1240` Cap Elterngeld replacement rate at 100% for low-income pre-birth earnings
   per Section 2(2) BEEG. ({ghuser}`Fire162`)
 

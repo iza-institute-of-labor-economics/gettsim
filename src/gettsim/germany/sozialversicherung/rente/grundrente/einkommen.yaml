@@ -1,51 +1,115 @@
 ---
-anzurechnendes_einkommen_ohne_partner:
+einkommensgrenzen_ohne_ehegatte:
   name:
-    de: Einkommensanrechnung Grundrente für Personen ohne verheiratetem Partner
-    en: Crediting of income for basic pension for individuals without married partner
+    de: Einkommensgrenzen der Grundrente für Berechtigte ohne Ehegatten
+    en: Income thresholds of the basic pension for beneficiaries without spouse
   description:
     de: >-
-      § 97a Abs. 4 S. 2, 4 SGB VI
-      Werte werden mit dem Rentenwert multipliziert, um Schwellen der
-      Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+      § 97a Abs. 4 S. 2, 3 SGB VI
+      Vielfache des aktuellen Rentenwerts. Oberhalb der unteren Grenze werden 60 %
+      des Einkommens bis zur oberen Grenze angerechnet, oberhalb der oberen Grenze
+      das gesamte übersteigende Einkommen.
     en: >-
-      § 97a Abs. 4 S. 2, 4 SGB VI
-      Values are multiplied with the Rentenwert to compute the thresholds of the income
-      crediting rule of Grundrentenzuschlag
-  input_unit: DIMENSIONLESS
-  output_unit: DIMENSIONLESS
-  type: piecewise_linear
+      § 97a Abs. 4 S. 2, 3 SGB VI
+      Multiples of the aktueller Rentenwert. Above the lower threshold, 60 % of the
+      income up to the upper threshold is credited; above the upper threshold, the
+      full excess is credited.
+  unit:
+    untere_grenze: DIMENSIONLESS
+    obere_grenze: DIMENSIONLESS
+  type: dict
   2021-01-01:
-    intervals:
-      - interval: (-inf, 36.56)
-        slope: 0
-        intercept: 0
-      - interval: '[36.56, 46.78)'
-        slope: 0.6
-      - interval: '[46.78, inf)'
-        slope: 1
-anzurechnendes_einkommen_mit_partner:
+    untere_grenze: 36.56
+    obere_grenze: 46.78
+    reference: >-
+      Art. 1 Nr. 6 G. v. 12.08.2020 BGBl. I S. 1879 (Grundrentengesetz).
+einkommensgrenzen_mit_ehegatte:
   name:
-    de: Einkommensanrechnung Grundrente für Personen mit verheiratetem Partner
-    en: Crediting of income for basic pension for individuals with married partner
+    de: Einkommensgrenzen der Grundrente für Berechtigte mit Ehegatten
+    en: Income thresholds of the basic pension for beneficiaries with spouse
   description:
     de: >-
-      § 97a Abs. 4 S. 2, 4 SGB VI
-      Werte werden mit dem Rentenwert multipliziert, um Schwellen der
-      Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+      § 97a Abs. 4 S. 4 SGB VI
+      Vielfache des aktuellen Rentenwerts, die an die Stelle der Grenzen für
+      Berechtigte ohne Ehegatten treten, wenn auch das Einkommen des Ehegatten zu
+      berücksichtigen ist.
     en: >-
-      § 97a Abs. 4 S. 2, 4 SGB VI
-      Values are multiplied with the Rentenwert to compute the thresholds of the income
-      crediting rule of Grundrentenzuschlag
-  input_unit: DIMENSIONLESS
-  output_unit: DIMENSIONLESS
-  type: piecewise_linear
+      § 97a Abs. 4 S. 4 SGB VI
+      Multiples of the aktueller Rentenwert that replace the thresholds for
+      beneficiaries without spouse if the spouse's income is to be considered as
+      well.
+  unit:
+    untere_grenze: DIMENSIONLESS
+    obere_grenze: DIMENSIONLESS
+  type: dict
   2021-01-01:
-    intervals:
-      - interval: (-inf, 57.03)
-        slope: 0
-        intercept: 0
-      - interval: '[57.03, 67.27)'
-        slope: 0.6
-      - interval: '[67.27, inf)'
-        slope: 1
+    untere_grenze: 57.03
+    obere_grenze: 67.27
+    reference: >-
+      Art. 1 Nr. 6 G. v. 12.08.2020 BGBl. I S. 1879 (Grundrentengesetz).
+anrechnungssätze:
+  name:
+    de: Anrechnungssätze der Grundrente
+    en: Crediting rates of the basic pension
+  description:
+    de: >-
+      § 97a Abs. 4 S. 2, 3 SGB VI
+      Anteil des Einkommens zwischen den Einkommensgrenzen und Anteil des Einkommens
+      oberhalb der oberen Einkommensgrenze, der auf den Grundrentenzuschlag
+      angerechnet wird.
+    en: >-
+      § 97a Abs. 4 S. 2, 3 SGB VI
+      Share of the income between the thresholds and share of the income above the
+      upper threshold that is credited against the Grundrentenzuschlag.
+  unit:
+    zwischen_den_grenzen: DIMENSIONLESS
+    über_der_oberen_grenze: DIMENSIONLESS
+  type: dict
+  2021-01-01:
+    zwischen_den_grenzen: 0.6
+    über_der_oberen_grenze: 1.0
+    reference: >-
+      Art. 1 Nr. 6 G. v. 12.08.2020 BGBl. I S. 1879 (Grundrentengesetz).
+rentenwert_für_einkommensgrenzen_m:
+  name:
+    de: Rentenwert für die Einkommensgrenzen der Grundrente
+    en: Rentenwert for the income thresholds of the basic pension
+  description:
+    de: >-
+      § 97a Abs. 4 S. 5 i.V.m. Abs. 5 S. 2 SGB VI
+      Änderungen der Einkommensgrenzen werden erst zum 1. Januar wirksam. Für das
+      Kalenderjahr gilt daher der aktuelle Rentenwert vom 1. Juli des Vorjahres
+      (siehe `sozialversicherung__rente__rentenwert_m`). Die Grenzen sind
+      bundeseinheitlich; bis 2023 gilt der Wert für die alten Bundesländer.
+    en: >-
+      § 97a Abs. 4 S. 5 in conjunction with Abs. 5 S. 2 SGB VI
+      Changes of the income thresholds take effect only on 1 January. A calendar year
+      therefore uses the aktueller Rentenwert of 1 July of the previous year (see
+      `sozialversicherung__rente__rentenwert_m`). The thresholds are uniform across
+      Germany; until 2023 the West value applies.
+  unit: EUR_PER_MONTH
+  type: scalar
+  2021-01-01:
+    value: 34.19
+    reference: >-
+      § 1 V. v. 08.06.2020 BGBl. I S. 1220 (Rentenwertbestimmungsverordnung 2020).
+  2022-01-01:
+    value: 34.19
+    reference: >-
+      § 1 V. v. 31.05.2021 BGBl. I S. 1254 (Rentenwertbestimmungsverordnung 2021).
+  2023-01-01:
+    value: 36.02
+    reference: >-
+      Art. 3 § 1 G. v. 28.06.2022 BGBl. I S. 975 (Rentenwertbestimmungsgesetz 2022).
+  2024-01-01:
+    value: 37.60
+    reference: V. v. 21.06.2023 BGBl. 2023 I Nr. 164.
+  2025-01-01:
+    value: 39.32
+    reference: V. v. 17.06.2024 BGBl. 2024 I Nr. 194.
+  2026-01-01:
+    value: 40.79
+    reference: V. v. 25.06.2025 BGBl. 2025 Nr. 148.
+  2027-01-01:
+    value: 42.52
+    reference: V. v. 18.06.2026 BGBl. 2026 Nr. 178.

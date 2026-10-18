@@ -21,41 +21,15 @@ def mean_entgeltpunkte() -> float:
 
 
 @policy_input(start_date="2021-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
-def gesamteinnahmen_aus_renten_vorjahr_m() -> float:
-    """Income from private and public pensions in the previous calendar year.
+def einkommen_vorjahr_m() -> float:
+    """Income relevant for the Grundrentenzuschlag (§ 97a Abs. 2 S. 1 SGB VI).
 
-    GETTSIM can calculate this input based on the data of the previous calendar year using the
-    target `('sozialversicherung', 'rente', 'grundrente', 'gesamteinnahmen_aus_renten_für_einkommensberechnung_im_folgejahr_m')`.
-    """
+    The sum of the person's zu versteuerndes Einkommen, the steuerfreier Teil of their
+    pensions, and their capital income subject to the Abgeltungsteuer in the previous
+    calendar year, as a monthly amount. For jointly assessed spouses, each holds half
+    of the joint zu versteuerndes Einkommen.
 
-
-@policy_input(start_date="2021-01-01", unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def bruttolohn_vorjahr_y() -> float:
-    """Earnings in the previous calendar year.
-
-    Calculation is based on the 'Einnahmen' definitions of the basic tax law (EStG).
-    """
-
-
-@policy_input(start_date="2021-01-01", unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def einnahmen_aus_selbstständiger_arbeit_vorvorjahr_y() -> float:
-    """Earnings from self-employment 2 years before.
-
-    Calculation is based on the 'Einnahmen' definitions of the basic tax law (EStG).
-    """
-
-
-@policy_input(start_date="2021-01-01", unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def einnahmen_aus_vermietung_und_verpachtung_vorvorjahr_y() -> float:
-    """Earnings from rental income 2 years before.
-
-    Calculation is based on the 'Einnahmen' definitions of the basic tax law (EStG).
-    """
-
-
-@policy_input(start_date="2021-01-01", unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def einnahmen_aus_kapitalvermögen_vorvorjahr_y() -> float:
-    """Earnings from capital income 2 years before.
-
-    Calculation is based on the 'Einnahmen' definitions of the basic tax law (EStG).
+    GETTSIM can calculate this input based on the data of the previous calendar year
+    using the target `('sozialversicherung', 'rente', 'grundrente',
+    'einkommen_für_einkommensberechnung_im_folgejahr_m')`.
     """
