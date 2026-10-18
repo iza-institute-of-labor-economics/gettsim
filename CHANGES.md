@@ -15,7 +15,7 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 
 ## Unreleased
 
-- {gh}`XXXX` Base the income test of the Grundrentenzuschlag on the § 97a Abs. 2 SGB VI
+- {gh}`1246` Base the income test of the Grundrentenzuschlag on the § 97a Abs. 2 SGB VI
   income (zu versteuerndes Einkommen, steuerfreier Teil of pensions, and capital income
   under the Abgeltungsteuer) instead of gross receipts. The income thresholds are
   rounded up to full Euro and use the Rentenwert of the previous 1 July for the whole
