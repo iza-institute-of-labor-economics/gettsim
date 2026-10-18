@@ -108,12 +108,16 @@ inputs:
           betrag_versicherter_m:
             - 40.0
       rente:
+        bezieht_altersrente:
+          - true
         jahr_renteneintritt:
           - 2024
         altersrente:
           betrag_m:
             - 500.0
         grundrente:
+          betrag_m:
+            - 0.0
           grundrentenzeiten_monate:
             - 396
         beitrag:
