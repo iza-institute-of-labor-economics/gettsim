@@ -22,9 +22,9 @@ inputs:
           basisbetrag_m:
             - 400.0
             - 0.0
-          einkommen_vorjahr_m:
-            - 1400.0
-            - 1400.0
+          einkommen_vorjahr_m_ehe:
+            - 2800.0
+            - 2800.0
   provided:
     familie:
       p_id_ehepartner:

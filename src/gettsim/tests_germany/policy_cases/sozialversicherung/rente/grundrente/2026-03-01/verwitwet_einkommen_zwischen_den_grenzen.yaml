@@ -30,7 +30,7 @@ inputs:
     sozialversicherung:
       rente:
         grundrente:
-          einkommen_vorjahr_m:
+          einkommen_vorjahr_m_ehe:
             - 1550.0
 outputs:
   sozialversicherung:

@@ -41,10 +41,10 @@ inputs:
             - 100.0
             - 400.0
             - 0.0
-          einkommen_vorjahr_m:
+          einkommen_vorjahr_m_ehe:
             - 1550.0
-            - 1400.0
-            - 1400.0
+            - 2800.0
+            - 2800.0
 outputs:
   sozialversicherung:
     rente:

@@ -41,7 +41,7 @@ inputs:
             - 300.0
             - 300.0
             - 300.0
-          einkommen_vorjahr_m:
+          einkommen_vorjahr_m_ehe:
             - 1491.5
             - 1492.5
             - 1908.5

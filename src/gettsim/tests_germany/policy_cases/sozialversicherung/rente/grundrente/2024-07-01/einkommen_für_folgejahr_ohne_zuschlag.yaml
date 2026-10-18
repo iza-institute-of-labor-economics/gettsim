@@ -96,6 +96,6 @@ outputs:
   sozialversicherung:
     rente:
       grundrente:
-        einkommen_für_einkommensberechnung_im_folgejahr_m:
+        einkommen_im_folgejahr_m:
           - 1200.0
           - 1210.0

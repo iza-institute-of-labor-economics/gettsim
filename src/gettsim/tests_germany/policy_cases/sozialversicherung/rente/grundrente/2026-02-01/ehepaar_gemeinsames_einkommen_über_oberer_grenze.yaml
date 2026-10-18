@@ -22,9 +22,9 @@ inputs:
     sozialversicherung:
       rente:
         grundrente:
-          einkommen_vorjahr_m:
-            - 1450.0
-            - 1450.0
+          einkommen_vorjahr_m_ehe:
+            - 2900.0
+            - 2900.0
   provided:
     familie:
       p_id_ehepartner:

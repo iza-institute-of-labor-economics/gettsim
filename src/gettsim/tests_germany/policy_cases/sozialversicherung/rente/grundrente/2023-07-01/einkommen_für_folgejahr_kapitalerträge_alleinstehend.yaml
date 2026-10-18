@@ -5,7 +5,7 @@ info:
     1,580.00 EUR in 2023, less the Sparer-Pauschbetrag of 1,000.00 EUR; credited
     capital income 580.00 EUR per year (§ 97a Abs. 2 S. 1 Nr. 3 SGB VI).
     The target computes, in a run for the income year, the input
-    `einkommen_vorjahr_m` of the following year: (person's share of the zvE +
+    `einkommen_vorjahr_m_ehe` of the following year: (person's share of the zvE +
     steuerfreier Teil of pensions + Abgeltungsteuer capital income) / 12.
     Assumed: zvE and pensions are zero; the capital income is declared (§ 97a
     Abs. 6).
@@ -68,5 +68,5 @@ outputs:
   sozialversicherung:
     rente:
       grundrente:
-        einkommen_für_einkommensberechnung_im_folgejahr_m:
+        einkommen_im_folgejahr_m:
           - 48.33

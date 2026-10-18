@@ -33,9 +33,9 @@ inputs:
           basisbetrag_m:
             - 300.0
             - 0.0
-          einkommen_vorjahr_m:
-            - 2000.0
-            - 400.0
+          einkommen_vorjahr_m_ehe:
+            - 2400.0
+            - 2400.0
 outputs:
   sozialversicherung:
     rente:
