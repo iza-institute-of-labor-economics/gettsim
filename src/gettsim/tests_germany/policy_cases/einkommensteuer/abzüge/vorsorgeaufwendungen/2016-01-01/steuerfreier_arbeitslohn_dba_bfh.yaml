@@ -36,7 +36,7 @@ inputs:
 outputs:
   einkommensteuer:
     abzüge:
-      abziehbarer_rentenversicherungsbeitrag_y:
+      anrechenbare_rentenversicherungsbeiträge_y:
         - 854.0
       altersvorsorge_y_sn:
         - 547.0

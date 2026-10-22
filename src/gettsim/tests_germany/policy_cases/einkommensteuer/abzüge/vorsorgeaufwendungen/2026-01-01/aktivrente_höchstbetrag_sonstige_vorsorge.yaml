@@ -52,20 +52,20 @@ inputs:
             - 261.0
             - 411.0
             - 375.0
-          betrag_rentner_m:
-            - 0.0
-            - 150.0
-            - 0.0
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 261.0
+            - 261.0
+            - 375.0
       pflege:
         beitrag:
           betrag_versicherter_m:
             - 54.0
             - 94.0
             - 112.5
-          betrag_rentner_m:
-            - 0.0
-            - 40.0
-            - 0.0
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 54.0
+            - 54.0
+            - 112.5
     hh_id:
       - 0
       - 1

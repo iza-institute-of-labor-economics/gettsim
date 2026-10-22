@@ -26,17 +26,17 @@ inputs:
           betrag_versicherter_m:
             - 130.0
             - 130.0
-          betrag_rentner_m:
-            - 0.0
-            - 0.0
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 130.0
+            - 130.0
       pflege:
         beitrag:
           betrag_versicherter_m:
             - 30.0
             - 30.0
-          betrag_rentner_m:
-            - 0.0
-            - 0.0
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 30.0
+            - 30.0
     hh_id:
       - 0
       - 1
@@ -51,12 +51,12 @@ outputs:
           - 21600.0
           - 0.0
     abzüge:
-      abziehbarer_rentenversicherungsbeitrag_y:
+      anrechenbare_rentenversicherungsbeiträge_y:
         - 0.0
         - 1680.0
-      abziehbarer_krankenversicherungsbeitrag_y:
+      anrechenbare_krankenversicherungsbeiträge_y:
         - 0.0
         - 1560.0
-      abziehbarer_pflegeversicherungsbeitrag_y:
+      anrechenbare_pflegeversicherungsbeiträge_y:
         - 0.0
         - 360.0

@@ -36,11 +36,11 @@ inputs:
             - 351.0
             - 90.0
             - 351.0
-          betrag_rentner_m:
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 261.0
+            - 261.0
             - 0.0
-            - 90.0
-            - 90.0
-            - 90.0
+            - 261.0
       pflege:
         beitrag:
           betrag_versicherter_m:
@@ -48,11 +48,11 @@ inputs:
             - 94.0
             - 40.0
             - 94.0
-          betrag_rentner_m:
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 54.0
+            - 54.0
             - 0.0
-            - 40.0
-            - 40.0
-            - 40.0
+            - 54.0
     hh_id:
       - 0
       - 1
@@ -66,12 +66,12 @@ inputs:
 outputs:
   einkommensteuer:
     abzüge:
-      abziehbarer_krankenversicherungsbeitrag_y:
+      anrechenbare_krankenversicherungsbeiträge_y:
         - 1044.0  # 3132 / 3
         - 2124.0  # 1080 + 3132 / 3
         - 1080.0
         - 4212.0
-      abziehbarer_pflegeversicherungsbeitrag_y:
+      anrechenbare_pflegeversicherungsbeiträge_y:
         - 216.0  # 648 / 3
         - 696.0  # 480 + 648 / 3
         - 480.0

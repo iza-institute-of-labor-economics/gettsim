@@ -38,9 +38,9 @@ inputs:
           betrag_versicherter_m:
             - 320.0
             - 261.0
-          betrag_rentner_m:
-            - 0.0
-            - 0.0
+          betrag_versicherter_aus_erwerbseinkommen_m:
+            - 320.0
+            - 261.0
     hh_id:
       - 0
       - 0
@@ -50,10 +50,10 @@ inputs:
 outputs:
   einkommensteuer:
     abzüge:
-      abziehbarer_rentenversicherungsbeitrag_y:
+      anrechenbare_rentenversicherungsbeiträge_y:
         - 2232.0  # 4464 * 24000 / 48000
         - 1116.0  # 3348 * 12000 / 36000
-      abziehbarer_krankenversicherungsbeitrag_y:
+      anrechenbare_krankenversicherungsbeiträge_y:
         - 1920.0  # 3840 * 24000 / 48000
         - 1044.0  # 3132 * 12000 / 36000
       altersvorsorge_y_sn:
