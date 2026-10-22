@@ -15,7 +15,7 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 
 ## Unreleased
 
-- {gh}`TBD` Social insurance contributions linked to tax-free wages, such as the
+- {gh}`1250` Social insurance contributions linked to tax-free wages, such as the
   Aktivrente, are not deductible as Vorsorgeaufwendungen (§ 10 Abs. 2 Satz 1 Nr. 1
   EStG). Pension, health, and long-term care insurance contributions on wages are split
   by the taxable share of the wage; contributions on pensions stay deductible in full.
