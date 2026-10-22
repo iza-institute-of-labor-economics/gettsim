@@ -30,10 +30,14 @@ inputs:
             - 0.0
       kranken:
         beitrag:
+          betrag_rentner_m:
+            - 0.0
           betrag_versicherter_m:
             - 0.0
       pflege:
         beitrag:
+          betrag_rentner_m:
+            - 0.0
           betrag_versicherter_m:
             - 0.0
       rente:

@@ -15,6 +15,19 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 
 ## Unreleased
 
+- {gh}`TBD` Social insurance contributions linked to tax-free wages, such as the
+  Aktivrente, are not deductible as Vorsorgeaufwendungen (§ 10 Abs. 2 Satz 1 Nr. 1
+  EStG). Pension, health, and long-term care insurance contributions on wages are split
+  by the taxable share of the wage; contributions on pensions stay deductible in full.
+  The Höchstbetrag for Altersvorsorgeaufwendungen now caps employee and employer
+  contributions before the employer share is subtracted (§ 10 Abs. 3 EStG), and the
+  Aktivrente claim is capped at the wage.
+
+  No new inputs. Computing Vorsorgeaufwendungen requires
+  `sozialversicherung__kranken__beitrag__betrag_rentner_m` and
+  `sozialversicherung__pflege__beitrag__betrag_rentner_m` (or the pension inputs they
+  are computed from) in all years. ({ghuser}`MImmesberger`)
+
 - {gh}`1240` Cap Elterngeld replacement rate at 100% for low-income pre-birth earnings
   per Section 2(2) BEEG. ({ghuser}`Fire162`)
 
