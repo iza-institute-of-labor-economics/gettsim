@@ -31,11 +31,11 @@ inputs:
             - 279.0
       kranken:
         beitrag:
-          betrag_versicherter_m:
-            - 261.0
-            - 351.0
+          betrag_rentner_m:
+            - 0.0
             - 90.0
-            - 351.0
+            - 90.0
+            - 90.0
           betrag_versicherter_aus_erwerbseinkommen_m:
             - 261.0
             - 261.0
@@ -43,11 +43,11 @@ inputs:
             - 261.0
       pflege:
         beitrag:
-          betrag_versicherter_m:
-            - 54.0
-            - 94.0
+          betrag_rentner_m:
+            - 0.0
             - 40.0
-            - 94.0
+            - 40.0
+            - 40.0
           betrag_versicherter_aus_erwerbseinkommen_m:
             - 54.0
             - 54.0
