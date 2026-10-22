@@ -1,0 +1,42 @@
+---
+info:
+  note: Lohn zu 87,72 % nach DBA steuerfrei, RV-Beiträge zu 12,28 % abziehbar.
+  precision_atol: 1.0
+  source: >-
+    BFH, Urteil v. 14.12.2022 – X R 25/21, Rz 3, 5 und 6.
+    https://www.bundesfinanzhof.de/de/entscheidung/entscheidungen-online/detail/pdf/STRE202310090?type=1646225765
+inputs:
+  assumed:
+    einnahmen:
+      bruttolohn_m:
+        - 6200.0  # Beitragsbemessungsgrenze West 2016; not stated in the source
+    einkommensteuer:
+      abzüge:
+        beitrag_private_rentenversicherung_m:
+          - 0.0
+      gemeinsam_veranlagt:
+        - false  # Spouse's own contributions are not reported
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          steuerbefreite_einnahmen_y:
+            - 65263.68  # 87.72 % of the assumed wage
+    familie:
+      p_id_ehepartner:
+        - -1
+  provided:
+    sozialversicherung:
+      rente:
+        beitrag:
+          betrag_versicherter_m:
+            - 579.708333  # Half of 13,913 € per year
+    hh_id:
+      - 0
+    p_id:
+      - 0
+outputs:
+  einkommensteuer:
+    abzüge:
+      abziehbarer_rentenversicherungsbeitrag_y:
+        - 854.0
+      altersvorsorge_y_sn:
+        - 547.0
