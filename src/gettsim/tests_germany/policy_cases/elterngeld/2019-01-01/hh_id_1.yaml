@@ -82,6 +82,11 @@ inputs:
           hat_kinder:
             - true
             - false
+      rente:
+        beitrag:
+          versicherungsfrei_wegen_alters:
+            - false
+            - false
     wohnort_ost_hh:
       - false
       - false

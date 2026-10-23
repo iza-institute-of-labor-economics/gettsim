@@ -48,6 +48,11 @@ inputs:
             - 50.0
             - 50.0
             - 50.0
+          versicherungsfrei_wegen_alters:
+            - false
+            - false
+            - false
+            - false
     p_id:
       - 0
       - 1

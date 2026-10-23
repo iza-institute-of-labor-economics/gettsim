@@ -33,6 +33,9 @@ inputs:
           betrag_versicherter_m:
             - 372.0
             - 279.0
+          versicherungsfrei_wegen_alters:
+            - false
+            - false
       kranken:
         beitrag:
           betrag_rentner_m:

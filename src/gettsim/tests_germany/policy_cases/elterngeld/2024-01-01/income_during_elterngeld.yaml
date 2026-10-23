@@ -112,6 +112,12 @@ inputs:
             - true
             - false
             - true
+      rente:
+        beitrag:
+          versicherungsfrei_wegen_alters:
+            - false
+            - false
+            - false
     wohnort_ost_hh:
       - false
       - false
