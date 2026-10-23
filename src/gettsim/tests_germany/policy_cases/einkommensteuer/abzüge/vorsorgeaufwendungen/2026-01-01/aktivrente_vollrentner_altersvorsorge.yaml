@@ -1,6 +1,8 @@
 ---
 info:
-  note: Vollrentner, Arbeitgeberanteil nach § 172 Abs. 1 SGB VI zählt nicht mit.
+  note: >-
+    Vollrentner, Arbeitgeberanteil nach § 172 Abs. 1 SGB VI zählt nicht in
+    Vorsorgeaufwendungen.
   precision_atol: 0.01
   source: Regression test.
 inputs:

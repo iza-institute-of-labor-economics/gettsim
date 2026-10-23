@@ -29,7 +29,7 @@ inputs:
             - 279.0
             - 0.0
             - 279.0
-          versicherungsfrei_wegen_alters:  # Pays the employee share
+          versicherungsfrei_wegen_alters:
             - false
             - false
             - false

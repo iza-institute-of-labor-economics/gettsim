@@ -48,7 +48,7 @@ inputs:
             - 50.0
             - 50.0
             - 50.0
-          versicherungsfrei_wegen_alters:  # Pays the employee share
+          versicherungsfrei_wegen_alters:
             - false
             - false
             - false

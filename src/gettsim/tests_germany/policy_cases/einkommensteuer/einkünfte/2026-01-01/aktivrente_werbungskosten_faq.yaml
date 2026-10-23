@@ -17,7 +17,7 @@ inputs:
         beitrag:
           betrag_versicherter_m:
             - 279.0
-          versicherungsfrei_wegen_alters:  # Pays the employee share
+          versicherungsfrei_wegen_alters:
             - false
   provided:
     einnahmen:

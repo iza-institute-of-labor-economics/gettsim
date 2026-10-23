@@ -126,11 +126,12 @@ def anspruchshöhe_steuerfreibetrag_aktivrente_m(
 ) -> float:
     """Steuerfreibetrag 'Aktivrente' nach Anspruchsprüfung.
 
-    The Aktivrente is a special tax deduction for wages earned past the Regelaltersgrenze
-    from an employment for which the employer owes pension insurance contributions. This
-    includes the isolated employer share for versicherungsfreie Vollrentner (§ 172
-    Abs. 1 SGB VI) but not Minijobs, whose employer contributions fall under norms § 3
-    Nr. 21 EStG does not list (§ 168 Abs. 1 Nr. 1b, § 172 Abs. 3 SGB VI).
+    The Aktivrente is a special tax deduction for wages earned past the
+    Regelaltersgrenze from an employment for which the employer owes pension insurance
+    contributions. This includes the isolated employer share for versicherungsfreie
+    Vollrentner (§ 172 Abs. 1 SGB VI) but not Minijobs, whose employer contributions
+    fall under norms § 3 Nr. 21 EStG does not list (§ 168 Abs. 1 Nr. 1b, § 172 Abs. 3
+    SGB VI).
 
     The Steuerfreibetrag is deducted on a **monthly** basis, i.e. it is not possible to
     to accumulate the Steuerfreibetrag in case one earns less than it in one month and

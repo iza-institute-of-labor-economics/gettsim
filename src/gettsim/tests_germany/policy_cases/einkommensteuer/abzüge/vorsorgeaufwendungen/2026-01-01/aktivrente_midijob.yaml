@@ -21,7 +21,7 @@ inputs:
           betrag_versicherter_m:
             - 140.0  # Reduced Midijob base
             - 140.0
-          versicherungsfrei_wegen_alters:  # Pays the employee share
+          versicherungsfrei_wegen_alters:
             - false
             - false
       kranken:

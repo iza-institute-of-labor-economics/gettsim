@@ -113,7 +113,11 @@ def steuerpflichtiger_arbeitslohn_y(
     Reference: 'RE4' in Programmablaufplan Lohnsteuer BMF 2025-11-12.
     """
     if steuerklasse == 6:
-        # Aktivrente is only applicable to one job (usually the 'main' job).
+        # TODO(@MImmesberger): With Steuerklasse 6, the deduction is only applied if the
+        # individual does not claim the deduction for another job. As GETTSIM does not
+        # support multiple jobs yet, we don't model this distinction. We assume that the
+        # Aktivrente is applied to the primary job, not the secondary job.
+        # https://github.com/ttsim-dev/gettsim/issues/1249
         return einnahmen__bruttolohn_y
     else:
         return (
