@@ -278,7 +278,9 @@ def altersvorsorge_y_sn_phase_in(
     and increases each year from 60% in 2005 to 100% in 2025. The employer share is
     subtracted last (§ 10 Abs. 3 Sätze 1 bis 6 EStG).
 
-    The employer share is taken to equal the employee share.
+    The employer share is taken to equal the employee share. For versicherungsfreie
+    Beschäftigte both are 0: the employer share under § 172 Abs. 1 SGB VI is not tax-free
+    under § 3 Nr. 62 EStG and is therefore neither added nor subtracted.
     """
     capped = min(
         2 * absetzbare_rentenversicherungsbeiträge_y_sn
@@ -308,7 +310,9 @@ def altersvorsorge_y_sn_volle_anrechnung(
     contributions; the employer share is subtracted afterwards (§ 10 Abs. 3 Sätze 1 bis 5
     EStG).
 
-    The employer share is taken to equal the employee share.
+    The employer share is taken to equal the employee share. For versicherungsfreie
+    Beschäftigte both are 0: the employer share under § 172 Abs. 1 SGB VI is not tax-free
+    under § 3 Nr. 62 EStG and is therefore neither added nor subtracted.
     """
     capped = min(
         2 * absetzbare_rentenversicherungsbeiträge_y_sn
