@@ -8,7 +8,7 @@ inputs:
     sozialversicherung:
       rente:
         beitrag:
-          versicherungsfrei_wegen_alters:  # Not stated; no Vollrente
+          versicherungsfrei_wegen_alters:
             - false
             - false
             - false
