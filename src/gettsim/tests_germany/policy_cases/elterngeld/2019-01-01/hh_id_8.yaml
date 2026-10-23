@@ -4,15 +4,7 @@ info:
   precision_atol: 0.01
   source: Regression test.
 inputs:
-  assumed:
-    sozialversicherung:
-      rente:
-        beitrag:
-          versicherungsfrei_wegen_alters:
-            - false
-            - false
-            - false
-            - false
+  assumed: {}
   provided:
     alter:
       - 1
@@ -134,6 +126,13 @@ inputs:
             - false
             - false
             - true
+      rente:
+        beitrag:
+          versicherungsfrei_wegen_alters:
+            - false
+            - false
+            - false
+            - false
     wohnort_ost_hh:
       - false
       - false
