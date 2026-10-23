@@ -15,7 +15,7 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 
 ## Unreleased
 
-- {gh}`TBD` Grant the Aktivrente (§ 3 Nr. 21 EStG) if the employer owes pension
+- {gh}`1251` Grant the Aktivrente (§ 3 Nr. 21 EStG) if the employer owes pension
   insurance contributions: versicherungsfreie Vollrentner qualify, Minijobber do not.
   From 2026, compute the Teilbeträge of the Lohnsteuer Vorsorgepauschale on the wage net
   of the Aktivrente, without the unemployment insurance Teilbetrag past the
