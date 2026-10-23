@@ -18,8 +18,7 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 - {gh}`1250` Split social insurance contributions between taxable and tax-free wage
   (e.g. Aktivrente) when deducting Vorsorgeaufwendungen (§ 10 Abs. 2 EStG); fix the
   order of capping in § 10 Abs. 3 EStG. New column
-  `sozialversicherung__{kranken,pflege}__beitrag__betrag_versicherter_aus_erwerbseinkommen_m`;
-  users who supply `betrag_versicherter_m` as data must supply it too.
+  `sozialversicherung__{kranken,pflege}__beitrag__betrag_versicherter_aus_erwerbseinkommen_m`.
   ({ghuser}`MImmesberger`)
 
 - {gh}`1240` Cap Elterngeld replacement rate at 100% for low-income pre-birth earnings

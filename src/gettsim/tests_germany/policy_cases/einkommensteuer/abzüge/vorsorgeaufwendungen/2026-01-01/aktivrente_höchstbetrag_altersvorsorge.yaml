@@ -60,7 +60,7 @@ inputs:
 outputs:
   einkommensteuer:
     abzüge:
-      anrechenbare_rentenversicherungsbeiträge_y:
+      absetzbare_rentenversicherungsbeiträge_y:
         - 2232.0
         - 2232.0
         - 4464.0

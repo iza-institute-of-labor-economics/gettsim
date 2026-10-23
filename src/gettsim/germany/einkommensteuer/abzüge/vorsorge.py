@@ -123,8 +123,8 @@ def vorsorgeaufwendungen_y_sn_ab_2020(
 )
 def vorsorgeaufwendungen_regime_bis_2004_y_sn(
     vorwegabzug_lohnsteuer_y_sn: float,
-    anrechenbare_krankenversicherungsbeiträge_y_sn: float,
-    anrechenbare_rentenversicherungsbeiträge_y_sn: float,
+    absetzbare_krankenversicherungsbeiträge_y_sn: float,
+    absetzbare_rentenversicherungsbeiträge_y_sn: float,
     familie__anzahl_personen_sn: int,
     parameter_altersvorsorgeaufwendungen_regime_bis_2004: dict[str, float],
 ) -> float:
@@ -132,8 +132,8 @@ def vorsorgeaufwendungen_regime_bis_2004_y_sn(
     multiplikator1 = max(
         (
             (
-                anrechenbare_rentenversicherungsbeiträge_y_sn
-                + anrechenbare_krankenversicherungsbeiträge_y_sn
+                absetzbare_rentenversicherungsbeiträge_y_sn
+                + absetzbare_krankenversicherungsbeiträge_y_sn
             )
             - vorwegabzug_lohnsteuer_y_sn
         ),
@@ -167,9 +167,9 @@ def vorsorgeaufwendungen_regime_bis_2004_y_sn(
 )
 def vorsorgeaufwendungen_globale_kappung_y_sn(
     altersvorsorge_y_sn: float,
-    anrechenbare_krankenversicherungsbeiträge_y_sn: float,
+    absetzbare_krankenversicherungsbeiträge_y_sn: float,
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_y_sn: float,
-    anrechenbare_pflegeversicherungsbeiträge_y_sn: float,
+    absetzbare_pflegeversicherungsbeiträge_y_sn: float,
     familie__anzahl_personen_sn: int,
     maximalbetrag_sonstige_vorsorgeaufwendungen: float,
 ) -> float:
@@ -179,9 +179,9 @@ def vorsorgeaufwendungen_globale_kappung_y_sn(
 
     """
     sum_vorsorge = (
-        anrechenbare_krankenversicherungsbeiträge_y_sn
+        absetzbare_krankenversicherungsbeiträge_y_sn
         + sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_y_sn
-        + anrechenbare_pflegeversicherungsbeiträge_y_sn
+        + absetzbare_pflegeversicherungsbeiträge_y_sn
     )
     max_value = (
         familie__anzahl_personen_sn * maximalbetrag_sonstige_vorsorgeaufwendungen
@@ -197,8 +197,8 @@ def vorsorgeaufwendungen_globale_kappung_y_sn(
 )
 def vorsorgeaufwendungen_keine_kappung_krankenversicherung_y_sn(
     altersvorsorge_y_sn: float,
-    anrechenbare_pflegeversicherungsbeiträge_y_sn: float,
-    anrechenbare_krankenversicherungsbeiträge_y_sn: float,
+    absetzbare_pflegeversicherungsbeiträge_y_sn: float,
+    absetzbare_krankenversicherungsbeiträge_y_sn: float,
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_y_sn: float,
     familie__anzahl_personen_sn: int,
     maximalbetrag_sonstige_vorsorgeaufwendungen: float,
@@ -210,9 +210,9 @@ def vorsorgeaufwendungen_keine_kappung_krankenversicherung_y_sn(
 
     """
     basiskrankenversicherung = (
-        anrechenbare_pflegeversicherungsbeiträge_y_sn
+        absetzbare_pflegeversicherungsbeiträge_y_sn
         + (1 - minderungsanteil_vorsorgeaufwendungen_für_krankenversicherungsbeiträge)
-        * anrechenbare_krankenversicherungsbeiträge_y_sn
+        * absetzbare_krankenversicherungsbeiträge_y_sn
     )
 
     sonst_vors_max = (
@@ -221,8 +221,8 @@ def vorsorgeaufwendungen_keine_kappung_krankenversicherung_y_sn(
     sonst_vors_before_basiskrankenv = min(
         (
             sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_y_sn
-            + anrechenbare_pflegeversicherungsbeiträge_y_sn
-            + anrechenbare_krankenversicherungsbeiträge_y_sn
+            + absetzbare_pflegeversicherungsbeiträge_y_sn
+            + absetzbare_krankenversicherungsbeiträge_y_sn
         ),
         sonst_vors_max,
     )
@@ -265,7 +265,7 @@ def rate_abzugsfähige_altersvorsorgeaufwendungen(
     unit=TTSIMUnit.CURRENCY.PER_YEAR.PER_SN,
 )
 def altersvorsorge_y_sn_phase_in(
-    anrechenbare_rentenversicherungsbeiträge_y_sn: float,
+    absetzbare_rentenversicherungsbeiträge_y_sn: float,
     beitrag_private_rentenversicherung_y_sn: float,
     familie__anzahl_personen_sn: int,
     rate_abzugsfähige_altersvorsorgeaufwendungen: float,
@@ -281,13 +281,13 @@ def altersvorsorge_y_sn_phase_in(
     The employer share is taken to equal the employee share.
     """
     capped = min(
-        2 * anrechenbare_rentenversicherungsbeiträge_y_sn
+        2 * absetzbare_rentenversicherungsbeiträge_y_sn
         + beitrag_private_rentenversicherung_y_sn,
         familie__anzahl_personen_sn * maximalbetrag_altersvorsorgeaufwendungen_y,
     )
     return (
         rate_abzugsfähige_altersvorsorgeaufwendungen * capped
-        - anrechenbare_rentenversicherungsbeiträge_y_sn
+        - absetzbare_rentenversicherungsbeiträge_y_sn
     )
 
 
@@ -297,7 +297,7 @@ def altersvorsorge_y_sn_phase_in(
     unit=TTSIMUnit.CURRENCY.PER_YEAR.PER_SN,
 )
 def altersvorsorge_y_sn_volle_anrechnung(
-    anrechenbare_rentenversicherungsbeiträge_y_sn: float,
+    absetzbare_rentenversicherungsbeiträge_y_sn: float,
     beitrag_private_rentenversicherung_y_sn: float,
     familie__anzahl_personen_sn: int,
     maximalbetrag_altersvorsorgeaufwendungen_y: float,
@@ -311,15 +311,15 @@ def altersvorsorge_y_sn_volle_anrechnung(
     The employer share is taken to equal the employee share.
     """
     capped = min(
-        2 * anrechenbare_rentenversicherungsbeiträge_y_sn
+        2 * absetzbare_rentenversicherungsbeiträge_y_sn
         + beitrag_private_rentenversicherung_y_sn,
         familie__anzahl_personen_sn * maximalbetrag_altersvorsorgeaufwendungen_y,
     )
-    return capped - anrechenbare_rentenversicherungsbeiträge_y_sn
+    return capped - absetzbare_rentenversicherungsbeiträge_y_sn
 
 
 @policy_function(unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def anrechenbare_rentenversicherungsbeiträge_y(
+def absetzbare_rentenversicherungsbeiträge_y(
     sozialversicherung__rente__beitrag__betrag_versicherter_y: float,
     einnahmen__bruttolohn_y: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__anteil_steuerfälliger_einnahmen: float,
@@ -339,7 +339,7 @@ def anrechenbare_rentenversicherungsbeiträge_y(
 
 
 @policy_function(unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def anrechenbare_krankenversicherungsbeiträge_y(
+def absetzbare_krankenversicherungsbeiträge_y(
     sozialversicherung__kranken__beitrag__betrag_versicherter_y: float,
     sozialversicherung__kranken__beitrag__betrag_versicherter_aus_erwerbseinkommen_y: float,
     einnahmen__bruttolohn_y: float,
@@ -365,7 +365,7 @@ def anrechenbare_krankenversicherungsbeiträge_y(
 
 
 @policy_function(unit=TTSIMUnit.CURRENCY.PER_YEAR)
-def anrechenbare_pflegeversicherungsbeiträge_y(
+def absetzbare_pflegeversicherungsbeiträge_y(
     sozialversicherung__pflege__beitrag__betrag_versicherter_y: float,
     sozialversicherung__pflege__beitrag__betrag_versicherter_aus_erwerbseinkommen_y: float,
     einnahmen__bruttolohn_y: float,

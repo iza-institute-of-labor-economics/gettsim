@@ -8,8 +8,8 @@ info:
 inputs:
   assumed:
     einnahmen:
-      bruttolohn_m:
-        - 6200.0  # Beitragsbemessungsgrenze West 2016; not stated in the source
+      bruttolohn_y:
+        - 100000.0  # Not in the source; only the taxable share (Rz 6) matters
     einkommensteuer:
       abzüge:
         beitrag_private_rentenversicherung_m:
@@ -19,7 +19,7 @@ inputs:
       einkünfte:
         aus_nichtselbstständiger_arbeit:
           steuerbefreite_einnahmen_y:
-            - 65263.68  # 87.72 % of the assumed wage
+            - 87720.0  # 87.72 % of the wage, leaving the taxable share of 12.28 %
     familie:
       p_id_ehepartner:
         - -1
@@ -27,8 +27,8 @@ inputs:
     sozialversicherung:
       rente:
         beitrag:
-          betrag_versicherter_m:
-            - 579.708333  # Half of 13,913 € per year
+          betrag_versicherter_y:
+            - 6956.5  # Half of 13,913 € (Rz 3); the other half is the employer share
     hh_id:
       - 0
     p_id:
@@ -36,7 +36,7 @@ inputs:
 outputs:
   einkommensteuer:
     abzüge:
-      anrechenbare_rentenversicherungsbeiträge_y:
+      absetzbare_rentenversicherungsbeiträge_y:
         - 854.0
       altersvorsorge_y_sn:
         - 547.0

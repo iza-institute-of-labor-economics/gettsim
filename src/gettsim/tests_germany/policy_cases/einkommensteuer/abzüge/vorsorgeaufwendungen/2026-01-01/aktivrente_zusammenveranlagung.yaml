@@ -50,10 +50,10 @@ inputs:
 outputs:
   einkommensteuer:
     abzüge:
-      anrechenbare_rentenversicherungsbeiträge_y:
+      absetzbare_rentenversicherungsbeiträge_y:
         - 2232.0  # 4464 * 24000 / 48000
         - 1116.0  # 3348 * 12000 / 36000
-      anrechenbare_krankenversicherungsbeiträge_y:
+      absetzbare_krankenversicherungsbeiträge_y:
         - 1920.0  # 3840 * 24000 / 48000
         - 1044.0  # 3132 * 12000 / 36000
       altersvorsorge_y_sn:
