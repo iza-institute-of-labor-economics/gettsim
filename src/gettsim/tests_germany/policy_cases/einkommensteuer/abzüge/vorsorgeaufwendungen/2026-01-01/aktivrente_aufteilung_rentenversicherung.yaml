@@ -40,6 +40,10 @@ inputs:
             - 372.0
             - 372.0
             - 785.85  # Capped at the Beitragsbemessungsgrenze
+          versicherungsfrei_wegen_alters:  # Pays the employee share
+            - false
+            - false
+            - false
     hh_id:
       - 0
       - 1
