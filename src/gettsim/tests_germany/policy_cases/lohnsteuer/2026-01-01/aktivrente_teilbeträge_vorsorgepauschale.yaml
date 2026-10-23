@@ -4,6 +4,25 @@ info:
   precision_atol: 0.01
   source: Regression test.
 inputs:
+  assumed:
+    # No parents in the data; only needed for the Pflegeversicherung rate.
+    familie:
+      p_id_elternteil_1:
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+      p_id_elternteil_2:
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
   provided:
     alter:
       - 66
